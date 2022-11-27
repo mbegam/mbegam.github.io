@@ -1,10 +1,14 @@
 //
-//  Plot the Mandelbrot Set
+//  MandelZoom:  Interactive Mandelbrot Set 
+//
+//  Michael Begam
+//
+//  Click/tap on the image to zoom in x 10 at that location
+//
+//  15 clicks (factor of 1 quadrillion) work as of 11/27/2022
 //
 
-var SIZE = myMin(window.innerWidth, window.innerHeight) - 35;
-
-// var SIZE = 200;
+var SIZE = myMin(window.innerWidth, window.innerHeight);
   
 const LIMIT = 1024;
 const SCALE = 4.0;
@@ -39,6 +43,15 @@ function showGlobals() {
 
 function myMin(n1, n2) {
      return (n1 < n2) ? n1 : n2;
+}
+
+function myPause(msStart, secsToWait) {
+
+     msToWait = secsToWait * 1000;
+
+     while (millis() - msStart < msToWait) {
+          continue;
+     }
 }
 
 function getRegion() {
@@ -158,7 +171,7 @@ function draw() {
 //  but no touch-event function is defined.) 
 //
 
-async function mousePressed() {
+function mousePressed() {
 
      var boxSize = SIZE / 10.0;
      var step = side / SIZE;
@@ -176,10 +189,11 @@ async function mousePressed() {
 
      // update the plot
 
-     await drawBox();
+     drawBox();
+     redraw();
      getRegion();
+     // myPause(millis(), 10);
      redraw(3);
 
      return false;
-
-
+}
