@@ -2,12 +2,12 @@
 //  Plot the Mandelbrot Set
 //
 
-// var SIZE = window.innerHeight - 35;
+var SIZE = myMin(window.innerWidth, window.innerHeight) - 35;
 
-var SIZE = 200;
+// var SIZE = 200;
   
-var LIMIT = 1024;
-var SCALE = 4.0;
+const LIMIT = 1024;
+const SCALE = 4.0;
 
 // For main Set: side = 3.0, rNW = -2.0, iNW = 1.5
 
