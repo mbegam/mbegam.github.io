@@ -56,7 +56,7 @@ function getRegion() {
      maxCount = 0;
      var n = 0;
 
-     noLoop();
+     // noLoop();
      for (var i = 0; i < SIZE; i++) {
           for (var j = 0; j < SIZE; j++) {
 
@@ -82,7 +82,7 @@ function getRegion() {
           }
      }
      showGlobals(); 
-     loop();
+     //loop();
 }
 
 function drawBox() {
@@ -116,6 +116,12 @@ function setup() {
      magnification = 1;   
 
      getRegion();
+
+     // we're only going to redraw the screen on mouse events
+     // from here on
+
+     redraw();
+     noLoop();
 }
 
 function draw() {
@@ -162,7 +168,18 @@ function autoScale() {
 }     
 */
 
-function mouseClicked() {
+
+//
+//  mouse and touch functionality
+//
+
+function mouseMoved() {
+
+     redraw();
+     return false;
+}
+
+function mousePressed() {
 
      var boxSize = SIZE / 10.0;
      var step = side / SIZE;
@@ -181,6 +198,30 @@ function mouseClicked() {
      // update the plot
 
      getRegion();
+     redraw();
+     return false;
+}
+
+function touchStarted() {
+
+     var boxSize = SIZE / 10.0;
+     var step = side / SIZE;
+
+     magnification *= 10;
+
+     // update the plot coords
+
+     rNW += (step * (mouseX - 0.5 * boxSize));
+     iNW -= (step * (mouseY - 0.5 * boxSize));
+
+     // zoom in 10x
+
+     side /= 10.0;
+
+     // update the plot
+
+     getRegion();
+     redraw();
      return false;
 }
 
