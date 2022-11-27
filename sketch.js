@@ -20,6 +20,7 @@ var maxCount;
 var autoScaleOn;
 var bound;  
 var magnification;    
+var isTouchDev;
 
 function showGlobals() {
 
@@ -81,8 +82,8 @@ function getRegion() {
                plotArray[n++] = myCount;
           }
      }
-     showGlobals(); 
-     //loop();
+     // showGlobals(); 
+     // loop();
 }
 
 function drawBox() {
@@ -99,6 +100,10 @@ function drawBox() {
     rect(x, y, boxSize, boxSize);
 }
 
+//
+// Main Program
+//
+
 function setup() {
 
      createCanvas(SIZE, SIZE);
@@ -114,13 +119,14 @@ function setup() {
      side = 3.0;
      bound = 2.0;
      magnification = 1;   
+     isTouchDev = true;
 
      getRegion();
+     redraw(3);
 
-     // we're only going to redraw the screen on mouse events
+     // only redraw the screen on mouse/touch events
      // from here on
 
-     redraw();
      noLoop();
 }
 
@@ -151,7 +157,9 @@ function draw() {
 
      // ...and the box
 
-     drawBox();
+     // if (!isTouchDev) {
+     //      drawBox();
+     // }
 }
 
 /*
@@ -175,7 +183,8 @@ function autoScale() {
 
 function mouseMoved() {
 
-     redraw();
+     isTouchDev = false;
+     redraw(3);
      return false;
 }
 
@@ -185,6 +194,7 @@ function mousePressed() {
      var step = side / SIZE;
 
      magnification *= 10;
+     isTouchDev = false;
 
      // update the plot coords
 
@@ -197,10 +207,14 @@ function mousePressed() {
 
      // update the plot
 
+     drawBox();
      getRegion();
-     redraw();
+     redraw(3);
+
      return false;
 }
+
+/*
 
 function touchStarted() {
 
@@ -208,6 +222,7 @@ function touchStarted() {
      var step = side / SIZE;
 
      magnification *= 10;
+     isTouchDev = true;
 
      // update the plot coords
 
@@ -221,10 +236,7 @@ function touchStarted() {
      // update the plot
 
      getRegion();
-     redraw();
+     redraw(3);
      return false;
 }
-
-// Set the value of the h1 tag
-
-// document.getElementById("hdr1").innerHTML = "*** Project MandelScope ***";
+*/
