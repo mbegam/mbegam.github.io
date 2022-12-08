@@ -1,11 +1,11 @@
 //
 //  MandelZoom:  Interactive Mandelbrot Set 
 //
-//  Michael Begam
+//  Michael Begam    27 Nov 2022
 //
 //  Click/tap on the image to zoom in x 10 at that location
 //
-//  15 clicks (factor of 1 quadrillion) work as of 11/27/2022
+//  15 clicks (factor of 1 quadrillion) max for now
 //
 
 var SIZE = myMin(window.innerWidth, window.innerHeight);
@@ -20,10 +20,13 @@ var rNW;
 var iNW;
 
 var plotArray = [];
+var backArray = [];
 var maxCount;
 var autoScaleOn;
 var bound;  
 var magnification;    
+var startTime;
+var stopTime;
 
 function showGlobals() {
 
@@ -64,10 +67,11 @@ function getRegion() {
      var rtmp = 0.0;
      var iPix = 0.0;
      var jPix = 0.0;
-
-     var myCount = 0;
      maxCount = 0;
+     var myCount = 0;
      var n = 0;
+
+     // For every pixel in SIZE x SIZE array   
 
      for (var i = 0; i < SIZE; i++) {
           for (var j = 0; j < SIZE; j++) {
@@ -77,7 +81,8 @@ function getRegion() {
                zMag = 0.0;
                myCount = 0;
        
-               //  for complex num c, zMag <-- zmag^2 + c
+               //  This loop is the  big number cruncher!
+               //  For complex num c, zMag <-- zmag^2 + c
 
                while (zMag < bound && myCount < LIMIT) {
                     rtmp = real;
@@ -87,10 +92,14 @@ function getRegion() {
                     zMag = real*real + imag*imag;
                     myCount++;
                }
+
+               // Keep track of the max value for later use
+        
                if (myCount < LIMIT && myCount > maxCount) {
                     maxCount = myCount;
                }
-               plotArray[n++] = myCount;
+
+               plotArray[n++] = myCount;  // store the value
           }
      }
      // showGlobals(); 
@@ -100,7 +109,8 @@ function drawBox() {
 
     var boxSize = SIZE / 10.0;
 
-    stroke(0, 0, 255);
+    colorMode(RGB);
+    stroke(255, 255, 255);
     strokeWeight(3);
     noFill();
    
@@ -108,48 +118,71 @@ function drawBox() {
     var y = mouseY - 0.5 * boxSize;
 
     rect(x, y, boxSize, boxSize);
+    
+    return true;
 }
 
 //
-// Main Program
+//  *** Main Program ***
 //
 
 function setup() {
 
+     // Set up the canvas
+
      createCanvas(SIZE, SIZE);
      background(210, 214, 126);
 
-     // plot the main set
+     // Main-set region parameters 
 
-     autoScaleOn = true;
+     rNW = -2.0;   // real coord of NW corner
+     iNW = 1.5;    // imag coord of NW corner
+     side = 3.0;   // side length of region
+     bound = 4.0;  // boundary val for determining set membership
 
-     rNW = -2.0;
-     iNW = 1.5;
-     side = 3.0;
-     bound = 2.0;
+     // miscellany
+
      magnification = 1;   
+     autoScaleOn = true;
+     startTime = 0;
+     stopTime = 0;
 
-     getRegion();
+     // Compute the set and store it in plotArray
+
+     getRegion();   
+
+     // Call draw() manually 3 times
+
      redraw(3);
 
-     // only redraw the screen on mouse/touch events
-     // from here on
+     // Keep the browser from continuously redrawing the canvas.
+     // We'll do that only in response to mouse/touch events
+     // from now on.
 
      noLoop();
 }
 
 function draw() {
 
-     // draw the plot...
-     
-     var n = 0;
+     // Update the canvas
+
+     var n = 0;   // index for linear array
     
+     // for every pixel in SIZE x SIZE array
+
      for (var i = 0; i < SIZE; i++) {
           for (var j = 0; j < SIZE; j++) {
+
+               // member of set -- color black
+            
                if (plotArray[n] === LIMIT) {
                     colorMode(RGB);
                     stroke(0, 0, 0);
                }
+
+               // not a member -- set the color by
+               // mapping 0 - maxArrayVal to 0 - 255
+
                else {
                     var myColor = plotArray[n] / SCALE;
                     if (autoScaleOn === true) {
@@ -158,6 +191,9 @@ function draw() {
                     colorMode(HSB, 255);
                     stroke(myColor, 255, 255);
                }
+
+               // draw the pixel on the canvas & incr the index
+
                point(j, i);
                n++;
           }
@@ -171,29 +207,49 @@ function draw() {
 //  but no touch-event function is defined.) 
 //
 
-function mousePressed() {
+function zoomIn() {
 
      var boxSize = SIZE / 10.0;
      var step = side / SIZE;
 
      magnification *= 10;
-
-     // update the plot coords
+   
+     // Update the plot coords & side length
 
      rNW += (step * (mouseX - 0.5 * boxSize));
      iNW -= (step * (mouseY - 0.5 * boxSize));
-
-     // zoom in 10x
-
      side /= 10.0;
 
-     // update the plot
+     // Draw the box to highlight the region selection
+     // and assure the user that something is happening
 
      drawBox();
-     redraw();
+
+     // Compute the new region and update the plot
+
      getRegion();
-     // myPause(millis(), 10);
-     redraw(3);
+     //redraw();
+
+     // Avoid any unexpected default behaviors
 
      return false;
 }
+
+function mousePressed() {
+  
+     startTime = millis();
+     return false;
+}
+
+function mouseReleased() {
+
+     stopTime = millis();
+
+     if (stopTime - startTime < 1500) {
+          zoomIn();
+     }
+     else {
+          console.log(stopTime - startTime);
+     }
+     return false;
+}    
