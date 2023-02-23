@@ -8,7 +8,6 @@
 //  15 clicks (factor of 1 quadrillion) max for now
 //
 
-var SIZE = myMin(window.innerWidth, window.innerHeight);
   
 const LIMIT = 1024;
 const SCALE = 4.0;
@@ -27,6 +26,7 @@ var bound;
 var magnification;    
 var startTime;
 var stopTime;
+var SIZE;
 
 function showGlobals() {
 
@@ -43,11 +43,11 @@ function showGlobals() {
      console.log("autoScaleOn: " + autoScaleOn + "\n");
      console.log("length: " + plotArray.length + "\n");
 }
-
+/*
 function myMin(n1, n2) {
      return (n1 < n2) ? n1 : n2;
 }
-
+*/
 function myPause(msStart, secsToWait) {
 
      msToWait = secsToWait * 1000;
@@ -129,6 +129,8 @@ function drawBox() {
 function setup() {
 
      // Set up the canvas
+
+     SIZE = min(window.innerWidth, window.innerHeight);
 
      createCanvas(SIZE, SIZE);
      background(210, 214, 126);
