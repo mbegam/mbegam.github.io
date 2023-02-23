@@ -227,7 +227,7 @@ function zoomIn() {
 
      // Compute the new region and update the plot
 
-     getRegion();
+     //getRegion();
      //redraw();
 
      // Avoid any unexpected default behaviors
@@ -237,12 +237,16 @@ function zoomIn() {
 
 function mousePressed() {
   
-     startTime = millis();
+//     startTime = millis();
+     zoomIn();
      return false;
 }
 
 function mouseReleased() {
 
+     getRegion();
+     redraw();
+/*
      stopTime = millis();
 
      if (stopTime - startTime < 1500) {
@@ -252,4 +256,5 @@ function mouseReleased() {
           console.log(stopTime - startTime);
      }
      return false;
+*/
 }    
