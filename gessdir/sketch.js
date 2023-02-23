@@ -39,14 +39,12 @@ var rulesClr;
 var fadeMsg;
 var fromAddr;
 var toAddr;
-// var boardSize = window.innerHeight - 35;
-var boardSize = min(window.innerHeight, window.innerWidth) - 35;
-var width = boardSize;
-var height = boardSize;
-var boardScale = width / 400.0;
+var width;
+var height;
+var boardScale;
 var saveScale;
-var Xcen = width / 2.0;
-var Ycen = height / 2.0;
+var Xcen;
+var Ycen;
 
 /////////////////////////////////////////////////////
 //
@@ -703,6 +701,14 @@ function showWelcome() {
 /////////////////////////////////////////////
 
 function setup() {
+
+     boardSize = min(window.innerWidth, window.innerHeight);
+     width = boardSize;
+     height = boardSize;
+     boardScale = width / 400.0;
+     saveScale;
+     Xcen = width / 2.0;
+     Ycen = height / 2.0;
 
      createCanvas(boardSize, boardSize);
      frameRate(30);
