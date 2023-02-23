@@ -702,7 +702,7 @@ function showWelcome() {
 
 function setup() {
 
-     boardSize = min(window.innerWidth, window.innerHeight);
+     boardSize = min(window.innerWidth, window.innerHeight); - 35;
      width = boardSize;
      height = boardSize;
      boardScale = width / 400.0;
