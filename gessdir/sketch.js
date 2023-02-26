@@ -39,8 +39,6 @@ var rulesClr;
 var fadeMsg;
 var fromAddr;
 var toAddr;
-var width;
-var height;
 var boardScale;
 var saveScale;
 var Xcen;
