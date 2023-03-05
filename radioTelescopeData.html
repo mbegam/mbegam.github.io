@@ -78,10 +78,10 @@ https://github.com/Team-Code/KA_Offline -->
                 line(0, axis1, width-1, axis1);
                 line(0, axis2, width-1, axis2);
                 for (var i = 0; i < 128; i++) {
-                    line(( 36+i)*SCALE, axis1, ( 36+i)*SCALE, axis1-sig[i]);
-                    line((236+i)*SCALE, axis1, (236+i)*SCALE, axis1-ref[i]);
-                    line(( 36+i)*SCALE, axis2, ( 36+i)*SCALE, axis2-raw[i]);
-                    line((236+i)*SCALE, axis2, (236+i)*SCALE, axis2-avg[i]);
+                    line(( 36+i)*SCALE, axis1, ( 36+i)*SCALE, axis1-sig[i]*SCALE);
+                    line((236+i)*SCALE, axis1, (236+i)*SCALE, axis1-ref[i]*SCALE);
+                    line(( 36+i)*SCALE, axis2, ( 36+i)*SCALE, axis2-raw[i]*SCALE);
+                    line((236+i)*SCALE, axis2, (236+i)*SCALE, axis2-avg[i]*SCALE);
                 }
                 fill(255, 255, 255);
                 text("Sig", 90*SCALE, 150*SCALE, 100*SCALE, 30*SCALE);
