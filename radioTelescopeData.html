@@ -1,8 +1,10 @@
 <!DOCTYPE html>
+
 <!-- This is based on DillingerLee's great template here:
-https://github.com/Team-Code/KA_Offline -->
+     https://github.com/Team-Code/KA_Offline -->
 
 <html> 
+
    <head>
       <style>
          body {
@@ -10,7 +12,7 @@ https://github.com/Team-Code/KA_Offline -->
             border-style: none;
          }
       </style>
-      <title>Processing.JS inside Webpages: Template</title> 
+      <title>Radio Telescope Data</title> 
    </head>
 
    <body>
@@ -28,8 +30,7 @@ https://github.com/Team-Code/KA_Offline -->
    <script>
       var sketchProc = function(processingInstance) {
          with (processingInstance) {
-            var SIZE = min(window.innerWidth, window.innerHeight) - 35;
-            size(SIZE, SIZE);
+
             //
             // ProgramCodeGoesHere
             //
@@ -44,6 +45,9 @@ https://github.com/Team-Code/KA_Offline -->
             //  Hit <Restart> for a new set of scans
             //
 
+            var SIZE = min(window.innerWidth, window.innerHeight) - 35;
+            size(SIZE, SIZE);
+
             var n = 1;
             var SCALE = width / 400;
             var axis1 = 125 * SCALE;
@@ -57,6 +61,7 @@ https://github.com/Team-Code/KA_Offline -->
             var paused = false;
 
             // Initialize the data arrays
+
             for (var i = 0; i < 128; i++) {
                 sig[i] = 0;
                 ref[i] = 0;
@@ -65,6 +70,7 @@ https://github.com/Team-Code/KA_Offline -->
             }
 
             // Function to compute the running average of the data
+
             var newAvg = function() {
                 for (var i = 0; i < 128; i++) {
                     avg[i] = (avg[i] * (n-1) + raw[i]) / n;
@@ -72,6 +78,7 @@ https://github.com/Team-Code/KA_Offline -->
             };
 
             // Function to display the spectra
+
             var plot = function() {
                 background(0, 0, 0);
                 stroke(0, 255, 0);
@@ -114,6 +121,7 @@ https://github.com/Team-Code/KA_Offline -->
             };
 
             // Click to pause/unpause the animation
+
             mouseClicked = function() {
                 if (paused) {
                     loop();
@@ -125,10 +133,14 @@ https://github.com/Team-Code/KA_Offline -->
             };
          }
       };
-      //
+
       // Get the canvas that Processing-js will use
+
       var canvas = document.getElementById("mycanvas"); 
+
       // Pass the function sketchProc (defined in myCode.js) to Processing's constructor.
+
       var processingInstance = new Processing(canvas, sketchProc); 
+
    </script>
 </html>
