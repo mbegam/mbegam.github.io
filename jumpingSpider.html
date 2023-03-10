@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+
+<!-- This is based on DillingerLee's great template here:
+https://github.com/Team-Code/KA_Offline -->
+
+<html> 
+   <head>
+      <style>
+         body {
+            background-color: black;
+
+         }
+         <title>Processing.JS inside Webpages: Template</title> 
+      </style>
+   </head>
+
+   <body>
+      <p align="center"> 
+         <!--This draws the Canvas on the webpage -->
+         <canvas id="mycanvas"></canvas> 
+      </p>
+   </body>
+ 
+   <!-- Run all the JavaScript stuff -->
+
+   <!-- Include the processing.js library -->
+
+   <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
+    
+   <script>
+        var sketchProc = function(processingInstance) {
+             with (processingInstance) {
+
+             // Program Code Goes Here
+
+             // Jumping Spider
+             //
+             // M.C. Begam -- 15 Oct 2015
+
+             var SIZE = window.innerHeight - 35;
+             size(SIZE, SIZE);
+             var SCALE = SIZE / 400;
+             frameRate(100);
+
+             // misc parameters
+             var time = 0;
+             var jump = 1;
+             var twitchX = 5;
+             var twitchY = 10;
+
+             // key coordinates and size
+             var bodyX = SCALE * 200;
+             var bodyY = SCALE * 200;
+             var bodyW = SCALE * 10;
+
+             // main loop
+             draw = function() {
+                  // light blue
+                  background(207, 254, 255);
+                  // relative coordinates and sizes
+                  var bodyH = bodyW * 2/3;
+                  var faceW = bodyW * 3/5;
+                  var faceH = faceW * 2/3;
+                  var faceX = bodyX;
+                  var faceY = bodyY - bodyH/4 - faceH/2;
+                  var eye1Size = faceH/4;
+                  var eye2Size = faceH/6;
+                  var fang1X1 = faceX - faceW/8 - faceW/16;
+                  var fang1X2 = faceX - faceW/8 + faceW/16;
+                  var fang1X3 = faceX - faceW/8;
+                  var fang2X1 = faceX + faceW/8 - faceW/16;
+                  var fang2X2 = faceX + faceW/8 + faceW/16;
+                  var fang2X3 = faceX + faceW/8;
+                  var fangY1 = faceY + faceH * 2/5;
+                  var fangY2 = fangY1 + faceH * 3/5;
+                  if (jump === 0) {
+                      fang1X3 += twitchX;
+                      fang2X3 -= twitchX;
+                      fangY2 -= twitchY;
+                  }
+                  var legScale = bodyW/10;
+                  // yellow
+                  fill(240, 209, 36);
+                  // body
+                  ellipse(bodyX, bodyY, bodyW, bodyH);
+                  // face
+                  ellipse(faceX, faceY, faceW, faceH); 
+                  // black
+                  fill(0, 0, 0);
+                  // eyes
+                  ellipse(faceX-faceW/8, faceY, eye1Size, eye1Size);
+                  ellipse(faceX+faceW/8, faceY, eye1Size, eye1Size);
+                  ellipse(faceX-faceW/3, faceY-faceH/10, eye2Size, eye2Size);
+                  ellipse(faceX+faceW/3, faceY-faceH/10, eye2Size, eye2Size);
+                  // fangs
+                  triangle(fang1X1, fangY1, fang1X2, fangY1, fang1X3, fangY2);
+                  triangle(fang2X1, fangY1, fang2X2, fangY1, fang2X3, fangY2);
+                  // right legs
+                  line(bodyX-legScale*8, bodyY-legScale*2, bodyX-legScale*4, bodyY);
+                  line(bodyX-legScale*7, bodyY-legScale*2, bodyX-legScale*4, bodyY);
+                  line(bodyX-legScale*6, bodyY-legScale*2, bodyX-legScale*4, bodyY);
+                  line(bodyX-legScale*5, bodyY-legScale*2, bodyX-legScale*4, bodyY);
+                  line(bodyX-legScale*8, bodyY-legScale*2, bodyX-legScale*8, bodyY+legScale*3);
+                  line(bodyX-legScale*7, bodyY-legScale*2, bodyX-legScale*7, bodyY+legScale*3);
+                  line(bodyX-legScale*6, bodyY-legScale*2, bodyX-legScale*6, bodyY+legScale*3);
+                  line(bodyX-legScale*5, bodyY-legScale*2, bodyX-legScale*5, bodyY+legScale*3);
+                  // left legs
+                  line(bodyX+legScale*8, bodyY-legScale*2, bodyX+legScale*4, bodyY);
+                  line(bodyX+legScale*7, bodyY-legScale*2, bodyX+legScale*4, bodyY);
+                  line(bodyX+legScale*6, bodyY-legScale*2, bodyX+legScale*4, bodyY);
+                  line(bodyX+legScale*5, bodyY-legScale*2, bodyX+legScale*4, bodyY);
+                  line(bodyX+legScale*8, bodyY-legScale*2, bodyX+legScale*8, bodyY+legScale*3);
+                  line(bodyX+legScale*7, bodyY-legScale*2, bodyX+legScale*7, bodyY+legScale*3);
+                  line(bodyX+legScale*6, bodyY-legScale*2, bodyX+legScale*6, bodyY+legScale*3);
+                  line(bodyX+legScale*5, bodyY-legScale*2, bodyX+legScale*5, bodyY+legScale*3);
+
+                  // jump
+
+                  if (time > 200) {
+                      if (jump === 1) {
+                          bodyY -= SCALE * 15;
+                          bodyW += SCALE * 10;
+                          if (bodyY < -100 * SCALE) {
+                              jump = -1;
+                          }
+                      }
+                      else if (jump === -1) {
+                          strokeWeight(5);
+                          bodyW = SCALE * 240;
+                          bodyY += SCALE * 25;
+                          if (bodyY >= SCALE * 250) {
+                              jump = 0;
+                          }
+                      }
+                      // menace with fangs
+                      else {
+                          if (time % 30 === 0) {
+                              twitchX *= -1;
+                              twitchY *= -1;
+                          }
+                      }
+                  }
+                  time++;
+              };
+          }
+     };
+     //
+     // Get the canvas that Processing-js will use
+     var canvas = document.getElementById("mycanvas"); 
+
+     // Pass the function sketchProc (defined in myCode.js) to Processing's constructor.
+     var processingInstance = new Processing(canvas, sketchProc); 
+    </script>
+</html>
