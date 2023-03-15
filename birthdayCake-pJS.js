@@ -26,7 +26,7 @@ var sketchProc = function(processingInstance) {
           textAlign(CENTER, CENTER);
           if (!wished) {
                textSize(SCALE*15);
-               text("Make a wish, then click to blow out the candles!", xCen, SCALE*40);
+               text("Make a wish, then click or tap to blow out the candles!", xCen, SCALE*40);
           }
           else if (blown > age) {
               textSize(SCALE*30);
