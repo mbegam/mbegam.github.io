@@ -201,7 +201,7 @@ var sketchProc = function(processingInstance) {
              fill(0, 60, 255, fadeOut);
              textSize(25*SCALE);
              textAlign(CENTER, CENTER);
-             text("Click or tap to Reposition\nthe Nemesis Dot", width/2, height/2);
+             text("Click or Tap to Reposition\nthe Nemesis Dot", width/2, height/2);
              fadeOut -= 2;
          }
          if (frameCount % 500 === 0) {
