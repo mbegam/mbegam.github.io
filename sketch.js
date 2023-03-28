@@ -9,7 +9,7 @@
 //
 
   
-const LIMIT = 1024;
+const LIMIT = 128;
 const SCALE = 4.0;
 
 // For main Set: side = 3.0, rNW = -2.0, iNW = 1.5
