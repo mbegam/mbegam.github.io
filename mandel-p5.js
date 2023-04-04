@@ -11,8 +11,6 @@
   
 // Globals
 
-const LIMIT = 100;
-
 var side;
 var rNW;
 var iNW;
@@ -23,17 +21,20 @@ var old_iNW;
 
 var plotArray = [];
 var backArray = [];
+
 var maxCount;
 var minCount;
 var autoScaleOn;
 var msgOn;
 var scaleMsg;
-var goBack;
 var bound;  
 var magnification;    
-var stopTime;
+var magLevel;
+var showMagLevelOn;
 var SIZE;
 var SCALE;
+var LIMIT;
+var LOG_10;
 
 function showGlobals() {
 
@@ -110,7 +111,7 @@ function drawBox() {
 
     colorMode(RGB);
     stroke(255, 255, 255);
-    strokeWeight(3);
+    strokeWeight(SIZE/400.0);
     noFill();
    
     var x = mouseX - 0.5 * boxSize;
@@ -127,6 +128,8 @@ function zoomIn() {
      var step = side / SIZE;
 
      magnification *= 10;
+     magLevel++;
+     LIMIT = 120 * magLevel**3;
    
      // Update the plot coords & side length
 
@@ -148,6 +151,16 @@ function zoomIn() {
      return false;
 }
 
+function showMag_level() {
+     colorMode(RGB);
+     stroke(0, 0, 0);
+     fill(255, 255, 255);
+     textAlign(LEFT, CENTER);
+     textSize(10*SCALE);
+     text("magLevel = " + magLevel, 10*SCALE, 10*SCALE);
+     text("LIMIT = " + LIMIT, 10*SCALE, 20*SCALE);
+}
+
 //
 //  *** Main Program ***
 //
@@ -160,7 +173,6 @@ function setup() {
      SCALE = SIZE / 400;
 
      createCanvas(SIZE, SIZE);
-     background(210, 214, 126);
 
      // Main-set region parameters 
 
@@ -172,15 +184,18 @@ function setup() {
      old_iNW = iNW;
      old_side = side;
 
+     LIMIT = 120;
      bound = 4.0;  // boundary val for determining set membership
 
      // miscellany
 
+     LOG_10 = 1.0 / log(10);
      magnification = 1;   
+     magLevel = 1;
+     showMagLevelOn = false;
      scaleMsg = "";
      autoScaleOn = true;
      msgOn = false;
-     goBack = false;
 
      // Compute the set and store it in plotArray
 
@@ -201,7 +216,10 @@ function draw() {
 
      // Update the canvas
 
+     background(210, 214, 126);
+
      var n = 0;   // index for linear array
+     var myHue;
     
      // for every pixel in SIZE x SIZE array
 
@@ -210,24 +228,29 @@ function draw() {
 
                // member of set -- color black
             
-               if (plotArray[n] === LIMIT) {
+               if (plotArray[n] >= LIMIT) {
                     colorMode(RGB);
                     stroke(0, 0, 0);
                }
 
                // not a member -- set the color by
-               // mapping 0 - maxArrayVal to 0 - 255
+               // mapping 0 - maxArrayVal to 0 - 360  
 
                else {
-                    var myColor = plotArray[n];
+
+                    myHue = plotArray[n];
+                    //myHue = LIMIT - plotArray[n];
+                    //minCount = LIMIT - minCount;
+                    //maxCount = LIMIT - maxCount;
+
                     if (autoScaleOn) {
-                         myColor = map(myColor, minCount, maxCount, 0, 255);
+                         myHue = map(myHue, minCount, maxCount, 0, 360);
                     }
                     else {
-                         myColor = map(myColor, 0, maxCount, 0, 255);
+                         myHue = map(myHue, 0, maxCount, 0, 360);
                     }
-                    colorMode(HSB, 255);
-                    stroke(myColor, 255, 255);
+                    colorMode(HSB);
+                    stroke(myHue, 100, 100);
                }
 
                // draw the pixel on the canvas & incr the index
@@ -244,6 +267,10 @@ function draw() {
           textAlign(CENTER, CENTER);
           textSize(25*SCALE);
           text(scaleMsg, width/2, height/2);
+          delay(2000);
+     }
+     if (showMagLevelOn) {
+          showMag_level();
      }
 }
 
@@ -269,26 +296,56 @@ function mouseReleased() {
      return false;
 }    
 
-function keyPressed() {
+function keyTyped() {
 
-     // 'a': Toggle auto scaling on/off
+     switch(key) {
 
-     if (keyCode === 65) {
-          autoScaleOn = !autoScaleOn;
-          msgOn = true;
-          scaleMsg = (autoScaleOn) ? "Auto Scaling On" : "Auto Scaling Off";
-          redraw();
-          msgOn = false;
-          redraw();
+          //  Toggle auto scaling on/off
+
+          case 'a':
+               autoScaleOn = !autoScaleOn;
+               // msgOn = true;
+               // scaleMsg = (autoScaleOn) ? "Auto Scaling On" : "Auto Scaling Off";
+               // redraw();
+               // msgOn = false;
+               redraw();
+               break;
+
+          //  Zoom back out
+
+          case 'b':
+               if (magLevel > 1) {
+                    rNW = old_rNW;
+                    iNW = old_iNW;
+                    side = old_side;
+                    magLevel--;
+                    LIMIT = 120 * magLevel**3;
+                    getRegion();
+                    redraw();
+               }
+               break;
+   
+          case 'm':
+               showMagLevelOn = !showMagLevelOn;
+               redraw();
+               break;
+
+          //  Enhance
+
+          case '0': case '1': case '2': case '3': case '4': 
+          case '5': case '6': case '7': case '8': case '9':
+                    
+               LIMIT = 128 * pow(2, key); 
+               getRegion();
+               redraw();
+               LIMIT = 120 * magLevel**3;
+               break;
+
+          //  Display the last key pressed
+
+          default:
+               console.log(key);
+               break;
      }
-
-     // 'b':  Zoom back out
- 
-     if (keyCode === 66) {
-          rNW = old_rNW;
-          iNW = old_iNW;
-          side = old_side;
-          redraw();
-     } 
      return false;
 }
