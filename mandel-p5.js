@@ -129,7 +129,7 @@ function zoomIn() {
 
      magnification *= 10;
      magLevel++;
-     LIMIT = 120 * magLevel;
+     LIMIT = 100 * magLevel;
    
      // Update the plot coords & side length
 
@@ -184,7 +184,7 @@ function setup() {
      old_iNW = iNW;
      old_side = side;
 
-     LIMIT = 120;
+     LIMIT = 100;
      bound = 4.0;  // boundary val for determining set membership
 
      // miscellany
@@ -214,14 +214,17 @@ function setup() {
 
 function draw() {
 
+     var n = 0;   // index for linear array
+
+     var myHue;
+    
+     var min = LIMIT - maxCount;
+     var max = LIMIT - minCount;
+
      // Update the canvas
 
      background(210, 214, 126);
 
-     var n = 0;   // index for linear array
-     var myHue;
-     var tmp;
-    
      // for every pixel in SIZE x SIZE array
 
      for (var i = 0; i < SIZE; i++) {
@@ -239,20 +242,14 @@ function draw() {
 
                else {
 
-                    // myHue = plotArray[n];
                     myHue = LIMIT - plotArray[n];
-                    tmp = minCount;
-                    minCount = LIMIT - maxCount;
-                    maxCount = LIMIT - tmp;
 
                     if (autoScaleOn) {
-                         myHue = map(myHue, minCount, maxCount, 0, 220);
+                         myHue = map(myHue, min, max, 0, LIMIT * 0.70);
                     }
-                    else {
-                         myHue = map(myHue, 0, maxCount, 0, 220);
-                    }
-                    colorMode(HSB);
-                    stroke(myHue, 255, 255);
+
+                    colorMode(HSB, LIMIT, 100, 100);
+                    stroke(myHue, 100, 100);
                }
 
                // draw the pixel on the canvas & incr the index
@@ -320,7 +317,7 @@ function keyTyped() {
                     iNW = old_iNW;
                     side = old_side;
                     magLevel--;
-                    LIMIT = 120 * magLevel;
+                    LIMIT = 100 * magLevel;
                     getRegion();
                     redraw();
                }
@@ -336,10 +333,10 @@ function keyTyped() {
           case '0': case '1': case '2': case '3': case '4': 
           case '5': case '6': case '7': case '8': case '9':
                     
-               LIMIT = 128 * pow(2, key); 
+               LIMIT = 100 * pow(2, key); 
                getRegion();
                redraw();
-               LIMIT = 120 * magLevel;
+               //LIMIT = 100 * magLevel;
                break;
 
           //  Display the last key pressed
