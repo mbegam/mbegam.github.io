@@ -129,7 +129,7 @@ function zoomIn() {
 
      magnification *= 10;
      magLevel++;
-     LIMIT = 120 * magLevel**3;
+     LIMIT = 120 * magLevel;
    
      // Update the plot coords & side length
 
@@ -220,6 +220,7 @@ function draw() {
 
      var n = 0;   // index for linear array
      var myHue;
+     var tmp;
     
      // for every pixel in SIZE x SIZE array
 
@@ -238,19 +239,20 @@ function draw() {
 
                else {
 
-                    myHue = plotArray[n];
-                    //myHue = LIMIT - plotArray[n];
-                    //minCount = LIMIT - minCount;
-                    //maxCount = LIMIT - maxCount;
+                    // myHue = plotArray[n];
+                    myHue = LIMIT - plotArray[n];
+                    tmp = minCount;
+                    minCount = LIMIT - maxCount;
+                    maxCount = LIMIT - tmp;
 
                     if (autoScaleOn) {
-                         myHue = map(myHue, minCount, maxCount, 0, 360);
+                         myHue = map(myHue, minCount, maxCount, 0, 220);
                     }
                     else {
-                         myHue = map(myHue, 0, maxCount, 0, 360);
+                         myHue = map(myHue, 0, maxCount, 0, 220);
                     }
                     colorMode(HSB);
-                    stroke(myHue, 100, 100);
+                    stroke(myHue, 255, 255);
                }
 
                // draw the pixel on the canvas & incr the index
@@ -259,7 +261,6 @@ function draw() {
                n++;
           }
      }
-
      if (msgOn) {
           colorMode(RGB);
           stroke(255, 255, 255);
@@ -319,7 +320,7 @@ function keyTyped() {
                     iNW = old_iNW;
                     side = old_side;
                     magLevel--;
-                    LIMIT = 120 * magLevel**3;
+                    LIMIT = 120 * magLevel;
                     getRegion();
                     redraw();
                }
@@ -338,7 +339,7 @@ function keyTyped() {
                LIMIT = 128 * pow(2, key); 
                getRegion();
                redraw();
-               LIMIT = 120 * magLevel**3;
+               LIMIT = 120 * magLevel;
                break;
 
           //  Display the last key pressed
