@@ -237,18 +237,19 @@ function draw() {
                     stroke(0, 0, 0);
                }
 
-               // not a member -- set the color by
-               // mapping 0 - maxArrayVal to 0 - 360  
+               // not a member 
 
                else {
 
                     myHue = LIMIT - plotArray[n];
 
                     if (autoScaleOn) {
-                         myHue = map(myHue, min, max, 0, LIMIT * 0.70);
+                         myHue = map(myHue, min, max, 0, 240);
                     }
-
-                    colorMode(HSB, LIMIT, 100, 100);
+                    else {
+                         myHue = map(myHue, 0, LIMIT, 0, 240);
+                    }
+                    colorMode(HSB);
                     stroke(myHue, 100, 100);
                }
 
