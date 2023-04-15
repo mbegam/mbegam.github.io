@@ -28,8 +28,8 @@ https://github.com/Team-Code/KA_Offline -->
    <script>
       var sketchProc = function(processingInstance) {
          with (processingInstance) {
-            // var boardSize = window.innerHeight - 35;
-            size(window.innerWidth - 35, window.innerWidth - 35);
+            var boardSize = min(window.innerWidth, window.innerHeight);
+            size(boardSize - 35, boardSize - 35);
             frameRate(30);
             
             //
