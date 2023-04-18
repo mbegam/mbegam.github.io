@@ -282,6 +282,47 @@ https://github.com/Team-Code/KA_Offline -->
         };
 
         //
+        // Mouse or Touch FUnctionality
+        //
+        mousePressed = function() {
+             
+            if (started === false) {
+                 started = true;
+                 return;
+            }
+
+            // Counterclockwise 
+
+            if (mouseX < width / 2 && az > -90) {
+                az--;
+                if (az > R1azMin && az < R1azMax && thetaR1 > -pi/2 + theta0) {
+                    thetaR1 -= rad*5;
+                }
+                if (az > R2azMin && az < R2azMax && thetaR2 > -theta0) {
+                    thetaR2 -= rad*5;
+                }
+                if (az === -90) {
+                    hitLimit = true;
+                }
+            }
+            
+            // Clockwise
+
+            if (mouseX >= width / 2 && az < 450) {
+                az++;
+                if (az > R2azMin && az < R2azMax && thetaR2 < pi/2 - theta0) {
+                    thetaR2 += rad*5;
+                }
+                if (az > R1azMin && az < R1azMax && thetaR1 < theta0) {
+                    thetaR1 += rad*5;
+                }
+                if (az === 450) {
+                    hitLimit = true;
+                }
+            }
+        };
+
+        //
         // Keyboard Functionality
         //
         keyPressed = function() {
