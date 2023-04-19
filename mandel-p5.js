@@ -30,11 +30,10 @@ var scaleMsg;
 var bound;  
 var magnification;    
 var magLevel;
-var showMagLevelOn;
+var showInfoOn;
 var SIZE;
 var SCALE;
 var LIMIT;
-var LOG_10;
 
 function showGlobals() {
 
@@ -151,14 +150,25 @@ function zoomIn() {
      return false;
 }
 
-function showMag_level() {
-     colorMode(RGB);
-     stroke(0, 0, 0);
-     fill(255, 255, 255);
+function showInfo() {
+
+     var status;  
+
+     if (autoScaleOn) {
+          status = "on";
+     }
+     else {
+          status = "off";
+     }
+
+     //noStroke();
+     //fill(0, 0, 100);
      textAlign(LEFT, CENTER);
      textSize(10*SCALE);
-     text("magLevel = " + magLevel, 10*SCALE, 10*SCALE);
-     text("LIMIT = " + LIMIT, 10*SCALE, 20*SCALE);
+     //text("autoScale: " + (autoScaleOn) ? "on" : "off", 10*SCALE, 10*SCALE); 
+     text("autoScale: " + status, 10*SCALE, 10*SCALE); 
+     text("magLevel: " + magLevel, 10*SCALE, 20*SCALE);
+     text("LIMIT: " + LIMIT, 10*SCALE, 30*SCALE);
 }
 
 //
@@ -189,10 +199,9 @@ function setup() {
 
      // miscellany
 
-     LOG_10 = 1.0 / log(10);
      magnification = 1;   
      magLevel = 1;
-     showMagLevelOn = false;
+     showInfoOn = false;
      scaleMsg = "";
      autoScaleOn = true;
      msgOn = false;
@@ -225,7 +234,7 @@ function draw() {
 
      background(210, 214, 126);
 
-     // for every pixel in SIZE x SIZE array
+     // for every pixel in array of length SIZE*SIZE;
 
      for (var i = 0; i < SIZE; i++) {
           for (var j = 0; j < SIZE; j++) {
@@ -244,10 +253,10 @@ function draw() {
                     myHue = LIMIT - plotArray[n];
 
                     if (autoScaleOn) {
-                         myHue = map(myHue, min, max, 0, 240);
+                         myHue = map(myHue, min, max, 0, 260);
                     }
                     else {
-                         myHue = map(myHue, 0, LIMIT, 0, 240);
+                         myHue = map(myHue, 0, LIMIT, 0, 260);
                     }
                     colorMode(HSB);
                     stroke(myHue, 100, 100);
@@ -259,17 +268,23 @@ function draw() {
                n++;
           }
      }
-     if (msgOn) {
-          colorMode(RGB);
-          stroke(255, 255, 255);
-          fill(255, 255, 255);
-          textAlign(CENTER, CENTER);
-          textSize(25*SCALE);
-          text(scaleMsg, width/2, height/2);
-          delay(2000);
-     }
-     if (showMagLevelOn) {
-          showMag_level();
+     if (showInfoOn) {
+          var status;  
+
+          if (autoScaleOn) {
+               status = "on";
+          }
+          else {
+               status = "off";
+          }
+
+          //noStroke();
+          fill(0, 0, 100);
+          textAlign(LEFT, CENTER);
+          textSize(10*SCALE);
+          text("autoScale: " + status, 10*SCALE, 10*SCALE); 
+          text("magLevel: " + magLevel, 10*SCALE, 20*SCALE);
+          text("LIMIT: " + LIMIT, 10*SCALE, 30*SCALE);
      }
 }
 
@@ -303,10 +318,6 @@ function keyTyped() {
 
           case 'a':
                autoScaleOn = !autoScaleOn;
-               // msgOn = true;
-               // scaleMsg = (autoScaleOn) ? "Auto Scaling On" : "Auto Scaling Off";
-               // redraw();
-               // msgOn = false;
                redraw();
                break;
 
@@ -324,8 +335,8 @@ function keyTyped() {
                }
                break;
    
-          case 'm':
-               showMagLevelOn = !showMagLevelOn;
+          case 'i':
+               showInfoOn = !showInfoOn;
                redraw();
                break;
 
