@@ -34,7 +34,7 @@ var sketchProc = function(processingInstance) {
           var theta = 30;
           var Z;
           var frmRate = 30;
-          var fuel = 5 * frmRate;
+          var fuel = 30 * frmRate;
           var saveCount = 0;
 
           var reset = false;
