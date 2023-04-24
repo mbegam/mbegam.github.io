@@ -15,7 +15,6 @@ var sketchProc = function(processingInstance) {
 
           size(SIZE, SIZE);
 
-          var ftPerPix = 2.0*SCALE;
           var x0 = 350*SCALE;
           var y0 = 15*SCALE;
           var vX0 = -20*SCALE;
@@ -27,7 +26,7 @@ var sketchProc = function(processingInstance) {
           var shipX = x0;
           var shipY = y0;
           var h = 350*SCALE - y0;
-          var r = 300*SCALE;
+          var r = shipX - 200*SCALE;
           var Th2weight = 2.0;
 
           var tSec = 0;
@@ -35,7 +34,7 @@ var sketchProc = function(processingInstance) {
           var theta = 30;
           var Z;
           var frmRate = 30;
-          var fuel = 30 * frmRate;
+          var fuel = 5 * frmRate;
           var saveCount = 0;
 
           var reset = false;
@@ -46,7 +45,7 @@ var sketchProc = function(processingInstance) {
           var helpOn = false;
           var paused = false;
           var landed = false;
-          var flameout = false;
+          var flameOut = false;
           var crashed = false;
 
           // var thrust = getSound("retro/thruster-short");
@@ -200,7 +199,6 @@ var sketchProc = function(processingInstance) {
                textSize(25*SCALE);
                textAlign(CENTER, CENTER);
                text("It's game over, man!", 200*SCALE, 200*SCALE);
-               thrustOn = false;
                noLoop();
           };
 
@@ -250,12 +248,6 @@ var sketchProc = function(processingInstance) {
                frameRate(frmRate);
                background(255, 255, 255);
                
-               // zenith angle
-
-               Z = abs(theta % 360);
-               if (Z > 180) {
-                    Z = 360 - Z;
-               }
 
                if (telemetryOn) {
                     showTelemetry();
@@ -268,12 +260,35 @@ var sketchProc = function(processingInstance) {
                    
                     tSec = frameCount / frmRate;
 
+                    // zenith angle
+
+                    Z = abs(theta % 360);
+                    if (Z > 180) {
+                         Z = 360 - Z;
+                    }
+
+                    // thrust
+
                     if (fuel > 0 && thrustOn) {
                          T = Th2weight * g;
                     }
                     else {
                          T = 0;
                     }
+
+                    // eqns of motion
+
+                    var aX = T * cos(theta*RAD - HALF_PI);
+                    var aY = g + T * sin(theta*RAD - HALF_PI);
+
+                    shipX = x0 + vX0*tSec + 0.5*aX*tSec*tSec;
+                    shipY = y0 + vY0*tSec + 0.5*aY*tSec*tSec;
+
+                    vX = vX0 + aX*tSec;
+                    vY = vY0 + aY*tSec;
+
+                    h = 350*SCALE - shipY;
+                    r = shipX - 200*SCALE;
 
                     // contact with barge
 
@@ -323,7 +338,7 @@ var sketchProc = function(processingInstance) {
 
                     if (abs(round(r)) >= 14*SCALE && h < 25*SCALE) {
 
-                         flameout = true;
+                         flameOut = true;
                          thrustOn = false;
                          showThrust = false;
                          toggleReset();
@@ -340,21 +355,6 @@ var sketchProc = function(processingInstance) {
                     if (shipY > 1000*SCALE) {
                          endGame();
                     }
-                    
-                    // eqns of motion
-
-                    var aX = T * cos(theta*RAD - HALF_PI);
-                    var aY = g + T * sin(theta*RAD - HALF_PI);
-
-                    shipX = x0 + vX0*tSec + 0.5*aX*tSec*tSec;
-                    shipY = y0 + vY0*tSec + 0.5*aY*tSec*tSec;
-
-                    vX = vX0 + aX*tSec;
-                    vY = vY0 + aY*tSec;
-
-                    h = (350*SCALE - shipY);
-                    r = (shipX - 200*SCALE);
-
                     tTotal++;
                }
                else  {
@@ -390,7 +390,7 @@ var sketchProc = function(processingInstance) {
                                   thrustOn = true;
                                   toggleReset();
                              }
-                             if (!flameout) {
+                             if (!flameOut) {
                                   showThrust = true;
                              }
                              if (fuel-- === 0) {
