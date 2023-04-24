@@ -48,8 +48,6 @@ var sketchProc = function(processingInstance) {
           var flameOut = false;
           var crashed = false;
 
-          // var thrust = getSound("retro/thruster-short");
-
           var drawWater = function() {
               
                fill(0, 255, 255, 200);
@@ -137,34 +135,34 @@ var sketchProc = function(processingInstance) {
                textAlign(LEFT, BASELINE);
 
                fill(0, 0, 0);
-               text("t = " + round(tTotal / frmRate), 10*SCALE, 20*SCALE);
-               text("h = " + round(h / SCALE), 10*SCALE, 40*SCALE);
-               text("r = " + round(r / SCALE), 10*SCALE, 60*SCALE);
+               text("t: " + round(tTotal / frmRate), 10*SCALE, 20*SCALE);
+               text("h: " + round(h / SCALE), 10*SCALE, 40*SCALE);
+               text("r: " + round(r / SCALE), 10*SCALE, 60*SCALE);
 
                if (round(vY) > 10*SCALE) {
                     fill(255, 0, 0);
                }
-               text("vY = " + round(vY/SCALE), 10*SCALE, 80*SCALE);
+               text("vY: " + round(vY/SCALE), 10*SCALE, 80*SCALE);
 
                fill(0, 0, 0);
                if (round(Z) > 5) {
                     fill(255, 0, 0);
                }
-               text("angle = " + Z, 10*SCALE, 100*SCALE);
+               text("angle: " + Z, 10*SCALE, 100*SCALE);
 
                fill (0, 0, 0);
                if (round(fuel / frmRate) <= 10) {
                     fill(255, 0, 0);
                }
-               text("fuel = " + round(fuel / frmRate), 10*SCALE, 120*SCALE);
+               text("fuel: " + round(fuel / frmRate), 10*SCALE, 120*SCALE);
 
-               //text("g = " + g, 20*SCALE, 140*SCALE);
-               //text("tSec = " + round(tSec), 10*SCALE, 140*SCALE);
-               //text("thrustOn = " + thrustOn, 20*SCALE, 100*SCALE);
-               //text("y0 = " + round(y0), 20*SCALE, 100*SCALE);
-               //text("v0 = " + round(vY0), 20*SCALE, 120*SCALE);
-               //text("theta = " + theta, 20*SCALE, 160*SCALE);
-               //text("reset = " + reset, 20*SCALE, 120*SCALE);
+               //text("g: " + g, 20*SCALE, 140*SCALE);
+               //text("tSec: " + round(tSec), 10*SCALE, 140*SCALE);
+               //text("thrustOn: " + thrustOn, 20*SCALE, 100*SCALE);
+               //text("y0: " + round(y0), 20*SCALE, 100*SCALE);
+               //text("v0: " + round(vY0), 20*SCALE, 120*SCALE);
+               //text("theta: " + theta, 20*SCALE, 160*SCALE);
+               //text("reset: " + reset, 20*SCALE, 120*SCALE);
           };
 
           var toggleReset = function() {
@@ -217,7 +215,7 @@ var sketchProc = function(processingInstance) {
                textAlign(LEFT, BASELINE);
                textSize(22*SCALE);
                text("Arrow Keys", 40*SCALE, 80*SCALE);
-               text("Keyboard Keys", 40*SCALE, 175*SCALE);
+               text("Other Keys", 40*SCALE, 175*SCALE);
                text("Instructions", 40*SCALE, 270*SCALE);
                fill(0, 0, 0);
                textSize(18*SCALE);
