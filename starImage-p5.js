@@ -81,9 +81,9 @@ function draw() {
 }
     
 
-// click to pause/unpause
+// click or tap to pause/unpause
 
-function mouseClicked() {
+function mousePressed() {
     if (!pause) {
         noLoop();
     }
