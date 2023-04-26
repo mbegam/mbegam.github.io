@@ -43,66 +43,83 @@
             
             size(SIZE, SIZE);
 
-            background(186, 145, 20); // wooden table
-            ellipse(200*SCALE, 200*SCALE, 350*SCALE, 350*SCALE); // plate
-            ellipse(200*SCALE, 200*SCALE, 300*SCALE, 300*SCALE); 
+            var draw = function() {
 
-            // mystery meat
-            fill(207, 126, 33);
-            ellipse(120*SCALE, 200*SCALE, 71*SCALE, 162*SCALE);
-            strokeWeight(3*SCALE);
-            strokeCap(round);
-            stroke(138, 106, 43);
-            line(100*SCALE, 140*SCALE, 140*SCALE, 190*SCALE);
-            line(100*SCALE, 160*SCALE, 140*SCALE, 210*SCALE);
-            line(100*SCALE, 180*SCALE, 140*SCALE, 230*SCALE);
-            line(100*SCALE, 200*SCALE, 140*SCALE, 250*SCALE);
+               // wooden table 
 
-            // peas
-            var xPea;
-            var yPea;
-            var peaSize = 6*SCALE;
-            fill(10, 250, 22);
-            strokeWeight(SCALE);
-            for (var i = 0; i < 600; i++) {
-                var r = floor(random(0, 51*SCALE));
-                var theta = floor(random(0, 360));
-                var xPea = 250*SCALE + r * cos(theta*RAD);
-                var yPea = 150*SCALE + r * sin(theta*RAD);
-                ellipse(xPea, yPea, peaSize, peaSize);
-            }
+               background(186, 145, 20); 
 
-            // mashed potatoes
-            noStroke();
-            fill(214, 230, 224);
-            ellipse(225*SCALE, 260*SCALE, 100*SCALE, 100*SCALE);
-            ellipse(225*SCALE, 260*SCALE, 120*SCALE, 80*SCALE);
+               // plate
 
-            // butter
-            fill(245, 225, 5);
-            rect(221*SCALE, 236*SCALE, 25*SCALE, 25*SCALE);
+               fill(255, 255, 255);
+               strokeWeight(SCALE);
+               stroke(0);
+               ellipse(200*SCALE, 200*SCALE, 350*SCALE, 350*SCALE); 
+               ellipse(200*SCALE, 200*SCALE, 300*SCALE, 300*SCALE); 
 
-            // watermelon slice
-            fill(255, 0, 0);
-            arc(170*SCALE, 65*SCALE, 130*SCALE, 104*SCALE, 0, PI);
-            noFill();
-            strokeWeight(5*SCALE);
-            stroke(0, 255, 0);
-            arc(170*SCALE, 65*SCALE, 130*SCALE, 104*SCALE, 0, PI);
-            noStroke();
-            fill(0, 0, 0);
-            ellipse(170*SCALE, 80*SCALE, 3*SCALE, 5*SCALE);
-            ellipse(180*SCALE, 94*SCALE, 3*SCALE, 5*SCALE);
-            ellipse(175*SCALE, 90*SCALE, 3*SCALE, 5*SCALE);
-            ellipse(143*SCALE, 82*SCALE, 3*SCALE, 5*SCALE);
-            ellipse(203*SCALE, 84*SCALE, 3*SCALE, 5*SCALE);
-            ellipse(193*SCALE, 83*SCALE, 3*SCALE, 5*SCALE);
-            ellipse(154*SCALE, 98*SCALE, 3*SCALE, 5*SCALE);
-            ellipse(151*SCALE, 85*SCALE, 3*SCALE, 5*SCALE);
+               // mystery meat
 
-            var mouseClicked = function() {
-            println(mouseX);
-            println(mouseY);
+               fill(207, 126, 33);
+               ellipse(120*SCALE, 200*SCALE, 71*SCALE, 162*SCALE);
+               strokeWeight(3*SCALE);
+               strokeCap(round);
+               stroke(138, 106, 43);
+               line(100*SCALE, 140*SCALE, 140*SCALE, 190*SCALE);
+               line(100*SCALE, 160*SCALE, 140*SCALE, 210*SCALE);
+               line(100*SCALE, 180*SCALE, 140*SCALE, 230*SCALE);
+               line(100*SCALE, 200*SCALE, 140*SCALE, 250*SCALE);
+
+               // peas
+
+               var xPea;
+               var yPea;
+               var peaSize = 6*SCALE;
+               fill(10, 250, 22);
+               strokeWeight(SCALE);
+               for (var i = 0; i < 600; i++) {
+                   var r = floor(random(0, 51*SCALE));
+                   var theta = floor(random(0, 360));
+                   var xPea = 250*SCALE + r * cos(theta*RAD);
+                   var yPea = 150*SCALE + r * sin(theta*RAD);
+                   ellipse(xPea, yPea, peaSize, peaSize);
+               }
+
+               // mashed potatoes
+
+               noStroke();
+               fill(214, 230, 224);
+               ellipse(225*SCALE, 260*SCALE, 100*SCALE, 100*SCALE);
+               ellipse(225*SCALE, 260*SCALE, 120*SCALE, 80*SCALE);
+
+               // butter
+
+               fill(245, 225, 5);
+               rect(221*SCALE, 236*SCALE, 25*SCALE, 25*SCALE);
+
+               // watermelon slice
+
+               fill(255, 0, 0);
+               arc(170*SCALE, 65*SCALE, 130*SCALE, 104*SCALE, 0, PI);
+               noFill();
+               strokeWeight(5*SCALE);
+               stroke(0, 255, 0);
+               arc(170*SCALE, 65*SCALE, 130*SCALE, 104*SCALE, 0, PI);
+               noStroke();
+               fill(0, 0, 0);
+               ellipse(170*SCALE, 80*SCALE, 3*SCALE, 5*SCALE);
+               ellipse(180*SCALE, 94*SCALE, 3*SCALE, 5*SCALE);
+               ellipse(175*SCALE, 90*SCALE, 3*SCALE, 5*SCALE);
+               ellipse(143*SCALE, 82*SCALE, 3*SCALE, 5*SCALE);
+               ellipse(203*SCALE, 84*SCALE, 3*SCALE, 5*SCALE);
+               ellipse(193*SCALE, 83*SCALE, 3*SCALE, 5*SCALE);
+               ellipse(154*SCALE, 98*SCALE, 3*SCALE, 5*SCALE);
+               ellipse(151*SCALE, 85*SCALE, 3*SCALE, 5*SCALE);
+
+               noLoop();
+            };
+
+            var mousePressed = function() {
+               redraw();
             };
          }
       };
