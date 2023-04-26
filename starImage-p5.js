@@ -19,6 +19,7 @@ var pause;
 // display frame count & instructions
 
 function drawCount() {
+
     textSize(15*SCALE);
     noStroke();
     fill(255, 255, 255);
@@ -39,6 +40,8 @@ function setup() {
      sigmaScale = 50 * SCALE;
 
      pause = false;
+
+     background(255, 255, 255);
 
      // draw sigma circles
 
