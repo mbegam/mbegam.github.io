@@ -61,7 +61,7 @@ https://github.com/Team-Code/KA_Offline -->
             var scanBoxY;
             var pieceBoxX;
             var pieceBoxY;
-            var mouseY0;
+            var mouseX0;
             var white = 0;
             var black = 1;
             var blank = -1;
@@ -772,11 +772,11 @@ https://github.com/Team-Code/KA_Offline -->
             };
 
             mousePressed = function() {
-                 mouseY0 = mouseY;
+                 mouseX0 = mouseX;
             };
            
             mouseReleased = function() {
-                 if (abs(mouseY - mouseY0) > 20) {
+                 if (abs(mouseX - mouseX0) > 20) {
                       undoLast();
                  }
             };
