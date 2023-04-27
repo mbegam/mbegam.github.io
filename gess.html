@@ -745,15 +745,21 @@ https://github.com/Team-Code/KA_Offline -->
                     }
                     else {
                         toAddr = boardN;
-                        if (isLegal() || !rulesOn) {
-                            putPiece(board1, piece1, fromAddr, toAddr);
-                            selected = !selected;
+
+                        if (toAddr != fromAddr) {
+                            if (isLegal() || !rulesOn) {
+                                putPiece(board1, piece1, fromAddr, toAddr);
+                                selected = !selected;
+                            }
+                            else {
+                                if (!helpOn) {
+                                    fadeMsg = "Nope!";
+                                    fadeOut = 255;
+                                }
+                            }
                         }
                         else {
-                            if (!helpOn) {
-                                fadeMsg = "Nope!";
-                                fadeOut = 255;
-                            }
+                             selected = !selected;
                         }
                     }
                 }
