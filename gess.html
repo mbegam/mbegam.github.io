@@ -23,9 +23,8 @@ https://github.com/Team-Code/KA_Offline -->
    <!-- Run all the JavaScript stuff -->
 
    <!-- Include the processing.js library -->
-   //<script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
-   //<script src="processing.min.js"></script> 
-   <script src="p5.min.js"></script> 
+
+   <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
    
    <script>
       var sketchProc = function(processingInstance) {
@@ -34,10 +33,6 @@ https://github.com/Team-Code/KA_Offline -->
             size(SIZE, SIZE);
             smooth();
             frameRate(30);
-            
-            //
-            // ProgramCodeGoesHere
-            //
 
             //
             // Gess Board v11
@@ -729,21 +724,6 @@ https://github.com/Team-Code/KA_Offline -->
                 }
             };
 
-
-            // Mouse & touch functionality
-
-            touchStarted = function() {
-                 mouseX0 = mouseX;
-                 return false;
-            };
-
-            touchEnded = function() {
-                 if (abs(mouseX - mouseX0) > 20) {
-                      undoLast();
-                 }
-                 return false;
-            };
-
             mouseClicked = function() {
                 if (started) {
                     if (!selected) {
@@ -848,10 +828,14 @@ https://github.com/Team-Code/KA_Offline -->
             };
          }
       };
-      //
+
       // Get the canvas that Processing-js will use
+
       var canvas = document.getElementById("mycanvas"); 
+
       // Pass the function sketchProc (defined in myCode.js) to Processing's constructor.
+
       var processingInstance = new Processing(canvas, sketchProc); 
+
    </script>
 </html>
