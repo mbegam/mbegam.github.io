@@ -7,7 +7,7 @@ https://github.com/Team-Code/KA_Offline -->
  <head>
  <style>
  body {
-    background-color: black;
+    background-color: Gray;
  }
     <title>Processing.JS inside Webpages: Template</title> 
 </style>
@@ -163,7 +163,7 @@ https://github.com/Team-Code/KA_Offline -->
             rect(rsScale*50, rsScale*175, rsScale*300, rsScale*50);
             fill(26, 0, 255);
             textSize(rsScale*16);
-            text("Use , and . to rotate CCW and CW", rsScale*75, rsScale*205);
+            text("Use < and > to rotate CCW and CW", rsScale*75, rsScale*205);
         };
 
         var drawDish = function() {
@@ -334,8 +334,9 @@ https://github.com/Team-Code/KA_Offline -->
                  return;
             }
             
-            // Counterclockwise (,)
-            if (key.code === 44 && az > -90) {
+            // Counterclockwise (Left Arrow)
+
+            if (keyCode === LEFT && az > -90) {
                 az--;
                 if (az > R1azMin && az < R1azMax && thetaR1 > -pi/2 + theta0) {
                     thetaR1 -= rad*5;
@@ -348,8 +349,9 @@ https://github.com/Team-Code/KA_Offline -->
                 }
             }
             
-            // Clockwise (.)
-            if (key.code === 46 && az < 450) {
+            // Clockwise (Right Arrow)
+
+            if (keyCode === RIGHT && az < 450) {
                 az++;
                 if (az > R2azMin && az < R2azMax && thetaR2 < pi/2 - theta0) {
                     thetaR2 += rad*5;
@@ -363,6 +365,7 @@ https://github.com/Team-Code/KA_Offline -->
             }
             
             // Toggle reference lines (l)
+
             if (key.code === 108) {
                 linesOn = !linesOn;
             }
