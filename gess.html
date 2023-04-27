@@ -61,7 +61,6 @@ https://github.com/Team-Code/KA_Offline -->
             var scanBoxY;
             var pieceBoxX;
             var pieceBoxY;
-            var mouseX0;
             var white = 0;
             var black = 1;
             var blank = -1;
@@ -769,16 +768,6 @@ https://github.com/Team-Code/KA_Offline -->
                 else {
                     started = !started;
                 }
-            };
-
-            mousePressed = function() {
-                 mouseX0 = mouseX;
-            };
-           
-            mouseReleased = function() {
-                 if (abs(mouseX - mouseX0) > 20) {
-                      undoLast();
-                 }
             };
 
             // Keyboard functionality
