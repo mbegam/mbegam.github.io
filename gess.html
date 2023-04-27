@@ -729,16 +729,19 @@ https://github.com/Team-Code/KA_Offline -->
                 }
             };
 
-            // Mouse functionality
 
-            mousePressed = function() {
+            // Mouse & touch functionality
+
+            touchStarted = function() {
                  mouseX0 = mouseX;
+                 return false;
             };
 
-            mouseReleased = function() {
+            touchEnded = function() {
                  if (abs(mouseX - mouseX0) > 20) {
                       undoLast();
                  }
+                 return false;
             };
 
             mouseClicked = function() {
