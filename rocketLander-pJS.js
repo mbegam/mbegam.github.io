@@ -14,6 +14,7 @@ var sketchProc = function(processingInstance) {
           var RAD = PI / 180.0;
 
           size(SIZE, SIZE);
+          smooth();
 
           var x0 = 350*SCALE;
           var y0 = 15*SCALE;
@@ -110,11 +111,17 @@ var sketchProc = function(processingInstance) {
                     arc(0, 25*SCALE, 25*SCALE, 35*SCALE, PI, TWO_PI);
                     fill(255, 255, 255);
                     ellipse(0, 0, 15*SCALE, 30*SCALE);
+
+                    // rocket exhaust
+
                     if (showThrust && fuel > 0) {
                          stroke(255, 0, 0);
                          fill(255, 180, 0);
-                         ellipse(0*SCALE, 30*SCALE, 5*SCALE, 20*SCALE);
+                         ellipse(0, 30*SCALE, 5*SCALE, 20*SCALE);
                     }
+
+                    // engine bell 
+
                     stroke(0, 0, 0);
                     fill(255, 255, 255);
                     triangle(0, 15*SCALE, -5*SCALE, 20*SCALE, 5*SCALE, 20*SCALE);
@@ -166,6 +173,9 @@ var sketchProc = function(processingInstance) {
           };
 
           var toggleReset = function() {
+
+               //  "Reset" the initial conditions of the 
+               //  eqns of motion to the current conditions
 
                frameCount = 0;
                x0 = shipX;
@@ -290,7 +300,7 @@ var sketchProc = function(processingInstance) {
 
                     // contact with barge
 
-                    if (abs(round(r)) < 14*SCALE && round(h) <= 30*SCALE) {
+                    if (abs(round(r)) < 8*SCALE && h <= 30*SCALE && h >= 25*SCALE) {
                         
                          // not landed yet  
 
@@ -298,7 +308,7 @@ var sketchProc = function(processingInstance) {
 
                               // crash: excessive speed or zenith angle
 
-                              if (vY > 20 * SCALE || Z > 5) {   
+                              if (vY > 20*SCALE || Z > 5) {   
                                    crashed = true;
                                    thrustOn = false;
                                    background(255, 255, 255);
@@ -391,8 +401,10 @@ var sketchProc = function(processingInstance) {
                              if (!flameOut) {
                                   showThrust = true;
                              }
-                             if (fuel-- === 0) {
+                             if (fuel-- <= 0) {
+                                  flameOut = true;
                                   thrustOn = false;
+                                  showThrust = false;
                                   toggleReset();
                              }
                              landed = false;
@@ -457,6 +469,7 @@ var sketchProc = function(processingInstance) {
                if (!started) {
                     started = !started;
                }
+               //console.log(mouseY/SCALE); 
           };
      }
 };
