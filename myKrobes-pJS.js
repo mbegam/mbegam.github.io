@@ -1,7 +1,8 @@
 var sketchProc = function(processingInstance) {
    with (processingInstance) {
 
-     var SIZE = min(window.innerWidth, window.innerHeight) - 35;
+     // var SIZE = min(window.innerWidth, window.innerHeight) - 35;
+     var SIZE = window.innerHeight - window.innerHeight/5.0;
      var SCALE = SIZE / 400;
      size(SIZE, SIZE);
      smooth();
@@ -21,6 +22,8 @@ var sketchProc = function(processingInstance) {
      var mykNum = 10;
      var mykSize = 20*SCALE;
      var maxSpeed = 7.0*SCALE;
+
+     var FC = 0;
 
      // nemesis dot constructor function
 
@@ -97,7 +100,10 @@ var sketchProc = function(processingInstance) {
          
          // behavior is sensitive to closeness
 
-         dir.mult(-1/2*(closeness*closeness)); 
+         // dir.mult(-1/2*(closeness*closeness)); 
+         var FC = document.getElementById("force").value;
+         dir.mult(FC*(closeness*closeness)); 
+         document.getElementById("FC").innerHTML = FC;
 
          // avoid nemesis dot!
 

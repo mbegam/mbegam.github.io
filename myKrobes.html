@@ -4,12 +4,18 @@
      https://github.com/Team-Code/KA_Offline -->
 
 <html> 
-
    <head>
       <style>
          body {
-            background-color: gray;
+            background-color: White;
             border-style: none;
+            margin: auto;
+            font-family: sans-serif;
+            text-align: center;
+         }
+         div {
+            display: flex;
+            justify-content: center;
          }
       </style>
       <title>Project MyKrobes</title> 
@@ -17,9 +23,17 @@
 
    <body>
       <p align="center"> 
-  	<!--This draws the Canvas on the webpage -->
-        <canvas id="mycanvas"></canvas> 
+         <canvas id="mycanvas"></canvas> 
       </p>
+      <div id="panel">
+         <p "align="center">
+            Force Constant: <span id="FC"></span><br>
+            -
+            <input id="force" type="range" min="-5" max="5" step="0.01" value="0">
+            +
+         </p>
+        
+      </div>
    </body>
  
    <!-- Run all the JavaScript stuff -->
