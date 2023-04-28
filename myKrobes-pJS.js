@@ -96,9 +96,8 @@ var sketchProc = function(processingInstance) {
          dir.normalize();
          
          // behavior is sensitive to closeness
-         // adjustment factor -- default = 1/15
 
-         dir.mult(-closeness/6); 
+         dir.mult(-1/2*(closeness*closeness)); 
 
          // avoid nemesis dot!
 
