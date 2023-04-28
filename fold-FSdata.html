@@ -200,13 +200,15 @@ https://github.com/Team-Code/KA_Offline" --Khan Academy -->
             // Main program
 
             initialize();
+            getChans();
             draw = function() {
-                getChans();
+                // getChans();
                 fold();
                 plot();
             };
 
             mouseDragged = function() {
+                 getChans();
                  return;
             };     
          }
