@@ -4,6 +4,7 @@ var sketchProc = function(processingInstance) {
      var SIZE = min(window.innerWidth, window.innerHeight) - 35;
      var SCALE = SIZE / 400;
      size(SIZE, SIZE);
+     smooth();
      frameRate(30);
 
      // *** Program Code Goes Here ***
@@ -96,9 +97,11 @@ var sketchProc = function(processingInstance) {
          
          // behavior is sensitive to closeness
          // adjustment factor -- default = 1/15
+
          dir.mult(-closeness/6); 
 
          // avoid nemesis dot!
+
          this.acceleration = dir;
          this.velocity.add(this.acceleration);
          this.velocity.limit(maxSpeed);
@@ -106,6 +109,7 @@ var sketchProc = function(processingInstance) {
          this.angle = atan(this.velocity.y / this.velocity.x);
          
          // register alarm with body color
+
          if (closeness > 0.5) {
              colorMode(HSB);
              var hVal = map(closeness, 0.5, 1, 100, 0);
