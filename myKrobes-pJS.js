@@ -102,7 +102,7 @@ var sketchProc = function(processingInstance) {
 
          // dir.mult(-1/2*(closeness*closeness)); 
          var FC = document.getElementById("force").value;
-         dir.mult(FC*(closeness*closeness)); 
+         dir.mult(-FC*(closeness*closeness)); 
          document.getElementById("FC").innerHTML = FC;
 
          // avoid nemesis dot!
