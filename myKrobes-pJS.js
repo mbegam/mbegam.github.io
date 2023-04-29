@@ -2,7 +2,6 @@ var sketchProc = function(processingInstance) {
    with (processingInstance) {
 
      var SIZE = min(window.innerWidth, window.innerHeight) - 35;
-     // var SIZE = window.innerHeight - window.innerHeight/5.0;
      var SCALE = SIZE / 400;
      size(SIZE, SIZE);
      smooth();
