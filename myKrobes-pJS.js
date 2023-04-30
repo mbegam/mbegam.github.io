@@ -1,34 +1,33 @@
 var sketchProc = function(processingInstance) {
    with (processingInstance) {
 
+     //  
+     //   Computational Creatures Project
+     //  
+     //   M.C. Begam          25 Jan 2016
+     //  
+
      var SIZE = min(window.innerWidth, window.innerHeight) - 35;
      var SCALE = SIZE / 400;
      size(SIZE, SIZE);
      smooth();
      frameRate(30);
 
-     // *** Program Code Goes Here ***
-
-     //
-     // Computational Creatures Project
-     //
-     // M.C. Begam          25 Jan 2016
-     //
-     // Watch the "mykrobes" avoid the nemesis dot.
-
      // user-adjustable variables
 
-     var mykNum = 10;
+     var mykNum = 1;
      var mykSize = 20*SCALE;
-     var maxSpeed = 7.0*SCALE;
-
+     var maxSpeed = 10*SCALE;
      var FC = 0;
-
+     var fcMin = document.getElementById("force").min;
+     var fcMax = document.getElementById("force").max;
+    
      // nemesis dot constructor function
 
      var NemDot = function() {
-         this.position = new PVector(random(399)*SCALE, random(399*SCALE));
-         this.velocity = new PVector(random(-0.5*SCALE, 0.5*SCALE), random(-0.5*SCALE, 0.5*SCALE));
+         this.position = new PVector(200*SCALE, 200*SCALE);
+         //this.position = new PVector(random(399)*SCALE, random(399*SCALE));
+         //this.velocity = new PVector(random(-0.5*SCALE, 0.5*SCALE), random(-0.5*SCALE, 0.5*SCALE));
      };
 
      // nemesis dot update function
@@ -58,7 +57,9 @@ var sketchProc = function(processingInstance) {
      // function to draw nemesis dot
 
      NemDot.prototype.draw = function() {
-         fill(255, 0, 0);
+         var grayVal = map(FC, fcMin, fcMax, 0, 255);
+         console.log(grayVal);
+         fill(grayVal);
          ellipse(this.position.x, this.position.y, 10*SCALE, 10*SCALE);
      };
 
@@ -97,9 +98,8 @@ var sketchProc = function(processingInstance) {
          var closeness = (maxMag - dirMag) / maxMag;
          dir.normalize();
          
-         // behavior is sensitive to closeness
+         // acceleration propotional to inverse sq. of "closeness" to dot
 
-         // dir.mult(-1/2*(closeness*closeness)); 
          FC = document.getElementById("force").value;
          dir.mult(-FC*(closeness*closeness)); 
          document.getElementById("FC").innerHTML = FC;
@@ -174,31 +174,36 @@ var sketchProc = function(processingInstance) {
      // Main Program
      //
 
-     // create nemesis dot
-
      var nem = new NemDot();
-
-     // set up array of new mykrobes
-
      var Myks = [];
-     for (var i = 0; i < mykNum; i++) {
-         var newX = random(399*SCALE);
-         var newY = random(399*SCALE);
-         Myks.push(new Mykrobe(newX, newY, mykSize));
-     }
-
-     // initial value for text transparancy
-
      var fadeOut = 255;
 
-     // Main Loop
+     //  *** Main Loop ***
 
      draw = function() {
          colorMode(RGB);
          background(208, 242, 236);
-         nem.update();
+         //nem.update();
          nem.checkEdges();
          nem.draw();
+
+         // Get # of mykrobes from current slider value
+
+         var nMyks = document.getElementById("mykrobes").value;
+         document.getElementById("nMK").innerHTML = nMyks;
+      
+         if (Myks.length > nMyks) {
+             while (Myks.length > nMyks) {
+                 Myks.pop();
+             }
+         }
+         else if (Myks.length < nMyks) {
+             while (Myks.length < nMyks) {
+                 var newX = random(399*SCALE);
+                 var newY = random(399*SCALE);
+                 Myks.push(new Mykrobe(newX, newY, mykSize));
+             }
+         }
          for (var i = 0; i < Myks.length; i++) {
              Myks[i].update(nem);
              Myks[i].checkEdges();
@@ -211,11 +216,6 @@ var sketchProc = function(processingInstance) {
              textAlign(CENTER, CENTER);
              text("Click or Tap to Reposition\nthe Nemesis Dot", width/2, height/2);
              fadeOut -= 2;
-         }
-         if (frameCount % 500 === 0) {
-             var newX = random(399*SCALE);
-             var newY = random(399*SCALE);
-             Myks.push(new Mykrobe(newX, newY, mykSize));
          }
      };
 
