@@ -111,19 +111,12 @@ var sketchProc = function(processingInstance) {
          this.velocity.limit(maxSpeed);
          this.position.add(this.velocity);
          this.angle = atan(this.velocity.y / this.velocity.x);
-         
-         // register alarm with body color
 
-         if (closeness > 0.5) {
-             colorMode(HSB);
-             var hVal = map(closeness, 0.5, 1, 100, 0);
-             var tVal = map(closeness, 0.5, 1, 100, 255);
-             this.color = color(hVal, 255, 255, tVal);
-         }
-         else {
-             colorMode(HSB);
-             this.color = color(100, 255, 255, 100);
-         }
+         // register "closeness" with color     
+         
+         colorMode(HSB);
+         var hVal = map(closeness, 0, 1, 180, 0);
+         this.color = color(hVal, 255, 255, 255);
      };
 
      // wrap around function--modified from example code 
