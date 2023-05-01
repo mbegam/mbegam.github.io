@@ -67,7 +67,7 @@ var sketchProc = function(processingInstance) {
 
      var Mykrobe = function(x, y, size) {
          this.position = new PVector(x, y);
-         this.velocity = new PVector(random(-1, 1), random(-1, 1));
+         this.velocity = new PVector(random(-5*SCALE, 5*SCALE), random(-5*SCALE, 5*SCALE));
          this.acceleration = new PVector(0, 0);
          this.angle = atan(this.velocity.y/this.velocity.x);
          this.size = size;
