@@ -140,6 +140,7 @@ var sketchProc = function(processingInstance) {
      // function to draw the mykrobe
 
      Mykrobe.prototype.draw = function() {
+         strokeWeight(0.25*SCALE);
          fill(21, 255, 0);
          var x = this.position.x;
          var y = this.position.y;
