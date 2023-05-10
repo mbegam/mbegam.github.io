@@ -410,10 +410,10 @@ var sketchProc = function(processingInstance) {
                              landed = false;
                              break;
                          case LEFT:
-                             theta -= 2;
+                             theta -= 3;
                              break;
                          case RIGHT:
-                             theta += 2;
+                             theta += 3;
                              break;
                          default:
                              break;
