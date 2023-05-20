@@ -3,43 +3,64 @@
    <head>
       <style>
          body {
+            display: flex;
             background-color: Gray;
+            align-items: center;
          }
          button {
+            width: 10%;
+            padding: none;
+            border-radius: 0;
+         }
+         .white {
+            background-color: black;
+            color: white;
+         }
+         .black {
+            background-color: white;
+            color: black;
+         }
+         #gameArea {
+            margin: auto;
          }
          #toolBarW {
+            display: flex;
             background-color: White;
             margin: auto;
             rotate: 180deg;
+            justify-content: center;
            
          }
          #toolBarB {
+            display: flex;
             background-color: Black;
             margin: auto;
+            justify-content: center;
+            padding: 0px;
          }
          #board {
-            margin: auto; 
-         }
-         #myCanvas {
+            margin: auto;
          }
       </style>
       <title>iGess</title> 
    </head>
    <body>
+      <div id="gameArea">
       <div id="toolBarW">
-         <button type="button" id="undoW" value="unclicked" onclick="setClicked('undoW')">&#8634;</button>
-         <button type="button" id="indexW" value="unclicked" onclick="setClicked('indexW')">i</button>
-         <button type="button" id="boxW" value="unclicked" onclick="setClicked('boxW')">b</button>
-         <button type="button" id="rulesW" value="unclicked" onclick="setClicked('rulesW')">r</button>
+         <button type="button" class="white" id="undoW" value="unclicked" onclick="setClicked('undoW')">&#8634;</button>
+         <button type="button" class="white" id="indexW" value="unclicked" onclick="setClicked('indexW')">i</button>
+         <button type="button" class="white" id="boxW" value="unclicked" onclick="setClicked('boxW')">b</button>
+         <button type="button" class="white" id="rulesW" value="unclicked" onclick="setClicked('rulesW')">r</button>
       </div>
       <div id="board">
          <canvas id="myCanvas"></canvas> 
       </div>
       <div id="toolBarB">
-         <button type="button" id="undoB" value="unclicked" onclick="setClicked('undoB')">&#8634;</button>
-         <button type="button" id="indexB" value="unclicked" onclick="setClicked('indexB')">i</button>
-         <button type="button" id="boxB" value="unclicked" onclick="setClicked('boxB')">b</button>
-         <button type="button" id="rulesB" value="unclicked" onclick="setClicked('rulesB')">r</button>
+         <button type="button" class="black" id="undoB" value="unclicked" onclick="setClicked('undoB')">&#8634;</button>
+         <button type="button" class="black" id="indexB" value="unclicked" onclick="setClicked('indexB')">i</button>
+         <button type="button" class="black" id="boxB" value="unclicked" onclick="setClicked('boxB')">b</button>
+         <button type="button" class="black" id="rulesB" value="unclicked" onclick="setClicked('rulesB')">r</button>
+      </div>
       </div>
    </body>
  
@@ -119,12 +140,13 @@
             document.getElementById("board").style.width = width + "px";
             document.getElementById("toolBarB").style.width = width + "px";
             document.getElementById("toolBarB").style.height = width / 15 + "px";
-       
+      /* 
             const buttons = document.getElementsByTagName("button");
             for (var i = 0; i < buttons.length; i++) {
                  buttons[i].style.fontSize = width / 25 + "px";
-                 buttons[i].style.width = width / 20 + "px";
+                 buttons[i].style.width = width / 18 + "px";
             }
+*/
 
             /////////////////////////////////////////////////////
             //
