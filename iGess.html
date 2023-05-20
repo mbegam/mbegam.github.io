@@ -5,14 +5,20 @@
          body {
             background-color: Gray;
          }
+         button {
+         }
          #toolBarW {
             background-color: White;
+            margin: auto;
             rotate: 180deg;
+           
          }
          #toolBarB {
             background-color: Black;
+            margin: auto;
          }
          #board {
+            margin: auto; 
          }
          #myCanvas {
          }
@@ -21,19 +27,19 @@
    </head>
    <body>
       <div id="toolBarW">
-         <button type="button" id="undo" value="unclicked" onclick="setClicked('undo')">&#8634;</button>
-         <button type="button" id="index" value="unclicked" onclick="setClicked('index')">I</button>
-         <button type="button" id="box" value="unclicked" onclick="setClicked('box')">B</button>
-         <button type="button" id="rules" value="unclicked" onclick="setClicked('rules')">R</button>
+         <button type="button" id="undoW" value="unclicked" onclick="setClicked('undoW')">&#8634;</button>
+         <button type="button" id="indexW" value="unclicked" onclick="setClicked('indexW')">i</button>
+         <button type="button" id="boxW" value="unclicked" onclick="setClicked('boxW')">b</button>
+         <button type="button" id="rulesW" value="unclicked" onclick="setClicked('rulesW')">r</button>
       </div>
       <div id="board">
          <canvas id="myCanvas"></canvas> 
       </div>
       <div id="toolBarB">
-         <button type="button" id="undo" value="unclicked" onclick="setClicked('undo')">&#8634;</button>
-         <button type="button" id="index" value="unclicked" onclick="setClicked('index')">I</button>
-         <button type="button" id="box" value="unclicked" onclick="setClicked('box')">B</button>
-         <button type="button" id="rules" value="unclicked" onclick="setClicked('rules')">R</button>
+         <button type="button" id="undoB" value="unclicked" onclick="setClicked('undoB')">&#8634;</button>
+         <button type="button" id="indexB" value="unclicked" onclick="setClicked('indexB')">i</button>
+         <button type="button" id="boxB" value="unclicked" onclick="setClicked('boxB')">b</button>
+         <button type="button" id="rulesB" value="unclicked" onclick="setClicked('rulesB')">r</button>
       </div>
    </body>
  
@@ -56,7 +62,7 @@
          with (processingInstance) {
 
             var SIZE = min(window.innerWidth, window.innerHeight);
-            SIZE -= SIZE / 8;
+            SIZE -= SIZE / 15;
             
             size(SIZE, SIZE);
             smooth();
@@ -109,7 +115,16 @@
             var Ycen = height / 2.0;
 
             document.getElementById("toolBarW").style.width = width + "px";
+            document.getElementById("toolBarW").style.height = width / 15 + "px";
+            document.getElementById("board").style.width = width + "px";
             document.getElementById("toolBarB").style.width = width + "px";
+            document.getElementById("toolBarB").style.height = width / 15 + "px";
+       
+            const buttons = document.getElementsByTagName("button");
+            for (var i = 0; i < buttons.length; i++) {
+                 buttons[i].style.fontSize = width / 25 + "px";
+                 buttons[i].style.width = width / 20 + "px";
+            }
 
             /////////////////////////////////////////////////////
             //
@@ -790,23 +805,31 @@
                         //
                         //  Button Functionality
                         //
-                        if (document.getElementById("undo").value === "clicked") {
+                        if (document.getElementById("undoW").value === "clicked" ||
+                            document.getElementById("undoB").value === "clicked") {
                              undoLast();
-                             document.getElementById("undo").value = "unclicked";
+                             document.getElementById("undoW").value = "unclicked";
+                             document.getElementById("undoB").value = "unclicked";
                         }
-                        if (document.getElementById("index").value === "clicked") {
+                        if (document.getElementById("indexW").value === "clicked" ||
+                            document.getElementById("indexB").value === "clicked") {
                              indicesOn = !indicesOn;
-                             document.getElementById("index").value = "unclicked";
+                             document.getElementById("indexW").value = "unclicked";
+                             document.getElementById("indexB").value = "unclicked";
                         }
-                        if (document.getElementById("box").value === "clicked") {
+                        if (document.getElementById("boxW").value === "clicked" ||
+                            document.getElementById("boxB").value === "clicked") {
                              boxOn = !boxOn;
-                             document.getElementById("box").value = "unclicked";
+                             document.getElementById("boxW").value = "unclicked";
+                             document.getElementById("boxB").value = "unclicked";
                         }
-                        if (document.getElementById("rules").value === "clicked") {
+                        if (document.getElementById("rulesW").value === "clicked" ||
+                            document.getElementById("rulesB").value === "clicked") {
                              rulesOn = !rulesOn;
                              fadeMsg = (rulesOn) ? "Rules On" : "Rules Off";
                              fadeOut = 255;
-                             document.getElementById("rules").value = "unclicked";
+                             document.getElementById("rulesW").value = "unclicked";
+                             document.getElementById("rulesB").value = "unclicked";
                         }
                     }
                     else {
