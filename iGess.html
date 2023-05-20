@@ -9,8 +9,8 @@
          }
          button {
             width: 10%;
-            padding: none;
             border-radius: 0;
+            padding: 0;
          }
          .white {
             background-color: black;
@@ -36,7 +36,6 @@
             background-color: Black;
             margin: auto;
             justify-content: center;
-            padding: 0px;
          }
          #board {
             margin: auto;
@@ -47,19 +46,19 @@
    <body>
       <div id="gameArea">
       <div id="toolBarW">
-         <button type="button" class="white" id="undoW" value="unclicked" onclick="setClicked('undoW')">&#8634;</button>
+         <button type="button" class="white" id="undoW"  value="unclicked" onclick="setClicked('undoW')">u</button>
          <button type="button" class="white" id="indexW" value="unclicked" onclick="setClicked('indexW')">i</button>
-         <button type="button" class="white" id="boxW" value="unclicked" onclick="setClicked('boxW')">b</button>
          <button type="button" class="white" id="rulesW" value="unclicked" onclick="setClicked('rulesW')">r</button>
+         <button type="button" class="white" id="helpW"  value="unclicked" onclick="setClicked('helpW')">h</button>
       </div>
       <div id="board">
          <canvas id="myCanvas"></canvas> 
       </div>
       <div id="toolBarB">
-         <button type="button" class="black" id="undoB" value="unclicked" onclick="setClicked('undoB')">&#8634;</button>
+         <button type="button" class="black" id="undoB"  value="unclicked" onclick="setClicked('undoB')">u</button>
          <button type="button" class="black" id="indexB" value="unclicked" onclick="setClicked('indexB')">i</button>
-         <button type="button" class="black" id="boxB" value="unclicked" onclick="setClicked('boxB')">b</button>
          <button type="button" class="black" id="rulesB" value="unclicked" onclick="setClicked('rulesB')">r</button>
+         <button type="button" class="black" id="helpB"  value="unclicked" onclick="setClicked('helpB')">h</button>
       </div>
       </div>
    </body>
@@ -140,13 +139,6 @@
             document.getElementById("board").style.width = width + "px";
             document.getElementById("toolBarB").style.width = width + "px";
             document.getElementById("toolBarB").style.height = width / 15 + "px";
-      /* 
-            const buttons = document.getElementsByTagName("button");
-            for (var i = 0; i < buttons.length; i++) {
-                 buttons[i].style.fontSize = width / 25 + "px";
-                 buttons[i].style.width = width / 18 + "px";
-            }
-*/
 
             /////////////////////////////////////////////////////
             //
@@ -671,32 +663,22 @@
                 text("Hit h to go back...", x*20.0, y*38.0);
                 textSize(size * 2.0);
                 textAlign(LEFT, BASELINE);
-                text("Rules", x*2.0, y*6.0);
-                text("Mouse", x*2.0, y*11.0);
-                text("Keyboard", x*2.0, y*20.0);
+                text("Rules", x*2.0, y*8.0);
+                text("Touch", x*2.0, y*14.0);
+                text("Buttons", x*2.0, y*22.0);
                 fill(0,0,0);
                 textSize(size * 1.5);
-                text("www.archive.is/9Mvi", x*2.0, y*8.0);
-                text("Move box using cursor", x*2.0, y*13.0);
-                text("Click to select piece", x*2.0, y*15.0);
-                text("Click again to select destination", x*2.0, y*17.0);
-                text("u", x*2.0, y*22.0);
-                text("undo previous move", x*5.0, y*22.0);
-                text("c", x*2.0, y*24.0);
-                text("clear the current selection", x*5.0, y*24.0);
+                text("www.archive.is/9Mvi", x*2.0, y*10.0);
+                text("Tap to select/unselect piece", x*2.0, y*16.0);
+                text("Tap again to select destination", x*2.0, y*18.0);
+                text("u", x*2.0, y*24.0);
+                text("undo previous move", x*5.0, y*24.0);
                 text("i", x*2.0, y*26.0);
                 text("toggle board indices on/off", x*5.0, y*26.0);
-                text("b", x*2.0, y*28.0);
-                text("toggle box on/off", x*5.0, y*28.0);
-                text("r", x*2.0, y*30.0);
-                text("toggle rules enforcement on/off", x*5.0, y*30.0);
-                text("s", x*2.0, y*32.0);
-                text("switch sides", x*5.0, y*32.0);
-                text("t", x*2.0, y*34.0);
-                text("toggle stones tally on/off", x*5.0, y*34.0);
-                text("h", x*2.0, y*36.0);
-                text("toggle help on/off", x*5.0, y*36.0);
-                
+                text("r", x*2.0, y*28.0);
+                text("toggle rules enforcement on/off", x*5.0, y*28.0);
+                text("h", x*2.0, y*30.0);
+                text("toggle help on/off", x*5.0, y*30.0);
             };
 
             // Function to display the Tally page
@@ -804,8 +786,13 @@
 
             draw = function() {
                 if (helpOn) {
-                    noLoop();
                     showHelp();
+                    if (document.getElementById("helpW").value === "clicked" ||
+                        document.getElementById("helpB").value === "clicked") {
+                        helpOn = !helpOn;
+                        document.getElementById("helpW").value = "unclicked";
+                        document.getElementById("helpB").value = "unclicked";
+                    }
                 }
                 else if (tallyOn) {
                     noLoop();
@@ -839,11 +826,11 @@
                              document.getElementById("indexW").value = "unclicked";
                              document.getElementById("indexB").value = "unclicked";
                         }
-                        if (document.getElementById("boxW").value === "clicked" ||
-                            document.getElementById("boxB").value === "clicked") {
-                             boxOn = !boxOn;
-                             document.getElementById("boxW").value = "unclicked";
-                             document.getElementById("boxB").value = "unclicked";
+                        if (document.getElementById("helpW").value === "clicked" ||
+                            document.getElementById("helpB").value === "clicked") {
+                             helpOn = !helpOn;
+                             document.getElementById("helpW").value = "unclicked";
+                             document.getElementById("helpB").value = "unclicked";
                         }
                         if (document.getElementById("rulesW").value === "clicked" ||
                             document.getElementById("rulesB").value === "clicked") {
