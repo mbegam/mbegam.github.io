@@ -4,8 +4,9 @@
       <style>
          body {
             display: flex;
+            flex-direction: column;
             background-color: Silver;
-            align-items: center;
+            justify-content: center;
          }
          button {
             width: 10%;
@@ -140,6 +141,9 @@
             document.getElementById("board").style.width = width + "px";
             document.getElementById("toolBarB").style.width = width + "px";
             document.getElementById("toolBarB").style.height = width / 15 + "px";
+
+            const tagEls = document.getElementsByTagName("body");
+            tagEls[0].style.height = window.innerHeight + "px";
 
             const buttons = document.getElementsByTagName("button");
             for (var i = 0; i < buttons.length; i++) {
