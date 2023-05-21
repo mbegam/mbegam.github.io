@@ -3,9 +3,9 @@
    <head>
       <style>
          body {
+            background-color: Silver;
             display: flex;
             flex-direction: column;
-            background-color: Silver;
             justify-content: center;
          }
          button {
@@ -22,8 +22,6 @@
             color: White; 
          }
          #gameArea {
-            margin: auto;
-            border: dotted;
          }
          #toolBarW {
             background-color: DarkSlateBlue;
@@ -135,7 +133,6 @@
             var Xcen = width / 2.0;
             var Ycen = height / 2.0;
 
-            document.getElementById("gameArea").style.height = window.innerHeight;
             document.getElementById("toolBarW").style.width = width + "px";
             document.getElementById("toolBarW").style.height = width / 15 + "px";
             document.getElementById("board").style.width = width + "px";
