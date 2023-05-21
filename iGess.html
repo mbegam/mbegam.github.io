@@ -22,6 +22,7 @@
          }
          #gameArea {
             margin: auto;
+            border: dotted;
          }
          #toolBarW {
             background-color: DarkSlateBlue;
@@ -133,6 +134,7 @@
             var Xcen = width / 2.0;
             var Ycen = height / 2.0;
 
+            document.getElementById("gameArea").style.height = window.innerHeight;
             document.getElementById("toolBarW").style.width = width + "px";
             document.getElementById("toolBarW").style.height = width / 15 + "px";
             document.getElementById("board").style.width = width + "px";
@@ -773,7 +775,7 @@
                 strokeWeight(1);
                 rect(Xcen-6.0*x, Ycen-3.0*y, 12.0*x, 6.0*y);
                 textSize(SCALE * 28.0);
-                fill(0, 0, 255);
+                fill(72, 61, 139); // DarkSlateBlue #483D8B
                 textAlign(CENTER, CENTER);
                 text("Welcome to iGess!\nTap to Start\n(Hit h for Help)", Xcen, Ycen);
             };
@@ -849,21 +851,6 @@
                         showWelcome();
                     }
                 }
-            };
-
-
-            // Mouse & touch functionality
-
-            touchStarted = function() {
-                 mouseX0 = mouseX;
-                 return false;
-            };
-
-            touchEnded = function() {
-                 if (abs(mouseX - mouseX0) > 20) {
-                      undoLast();
-                 }
-                 return false;
             };
 
             mouseClicked = function() {
