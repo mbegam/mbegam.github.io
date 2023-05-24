@@ -23,7 +23,18 @@
             font-style: italic;
          }
          .a-note {
-              margin-left: 7px;
+            margin-left: 7px;
+         }
+         .auDiv {
+            display: flex;
+         }
+         .track {
+            width: 50%;
+            font-size: 1.6em;
+            color: white;
+         }
+         audio {
+            width: 50%;
          }
       </style>
       <title>This Website</title> 
@@ -70,13 +81,17 @@
          <h2>Drawings</h2>
             <a href="gallery.html">Gallery</a><br>
          <h2>Music</h2>
-            <audio controls>
-               <source src="banjoLullaby.mp3" type="audio/mpeg">
-            </audio>
-            <span style="font-size: 1.5em">Banjo Lullaby c. '83 (1:33)</span><br><br><br><br>
-            <audio controls>
-               <source src="piano.mp3" type="audio/mpeg">
-            </audio>
-            <span style="font-size: 1.5em">Piano Mix '79 (12:14)</span><br><br><br><br>
+            <div class="auDiv">
+               <span class="track">Banjo Lullaby '83 (1:33)</span>
+               <audio controls>
+                  <source src="banjoLullaby.mp3" type="audio/mpeg">
+               </audio>
+            </div>
+            <div class="auDiv">
+               <span class="track">Piano Mix '79 (12:14)</span>
+               <audio controls>
+                  <source src="piano.mp3" type="audio/mpeg">
+               </audio>
+            </div>
    </body>
 </html>
