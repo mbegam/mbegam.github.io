@@ -35,11 +35,9 @@
             display: flex;
             justify-content: center;
             margin: auto;
-            border: none;
          }
          #board {
             margin: auto;
-            border: none;  
          }
       </style>
       <title>iGess</title> 
@@ -53,7 +51,7 @@
          <button type="button" class="white" id="helpW"  value="unclicked" onclick="setClicked('helpW')">h</button>
       </div>
       <div id="board">
-         <canvas id="myCanvas"></canvas> 
+         <canvas id="myCanvas""></canvas> 
       </div>
       <div id="toolBarB">
          <button type="button" class="black" id="undoB"  value="unclicked" onclick="setClicked('undoB')">u</button>
@@ -674,7 +672,7 @@
                 textSize(size * 2.0);
                 textAlign(LEFT, BASELINE);
                 text("Rules", x*2.0, y*8.0);
-                text("Touch", x*2.0, y*14.0);
+                text("Board", x*2.0, y*14.0);
                 text("Buttons", x*2.0, y*22.0);
                 fill(0,0,0);
                 textSize(size * 1.5);
@@ -945,21 +943,6 @@
                             loop();
                         }
                         helpOn = !helpOn;
-                        break;
-                    // p: open/close control panel
-                    case 112:
-                        if (!panelOn) {
-                             if (window.innerWidth <= window.innerHeight) {
-                                  size(SIZE, SIZE+SIZE/20) 
-                             }
-                             else {
-                                  size(SIZE+SIZE/20, SIZE);
-                             }
-                        }
-                        else {
-                             size(SIZE, SIZE);
-                        }
-                        panelOn = !panelOn;
                         break;
                     // uncomment to see key codes
                     default:
