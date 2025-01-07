@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<!-- This is based on DillingerLee's great template here:
+https://github.com/Team-Code/KA_Offline -->
+
+<html> 
+
+   <head>
+      <title>Birthday Cake</title> 
+      <style>
+         body {
+            background-color: gray;
+         }
+      </style>
+   </head>
+
+   <body>
+      <p align="center"> 
+         <canvas id="mycanvas"></canvas> 
+      </p>
+   </body>
+ 
+    <!-- Include the processing.js library -->
+
+    <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
+
+    <!-- This is the newer p5.js library --> 
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/p5@1.5.0/lib/p5.js"></script> -->
+    
+    <script>
+       var sketchProc = function(processingInstance) {
+           with (processingInstance) {
+
+           var cakeSize = min(window.innerWidth, window.innerHeight) - 35;
+           size(cakeSize, cakeSize);
+           frameRate(30);
+           
+           // ProgramCodeGoesHere
+           //
+
+           //
+           //  Birthday Cake
+           //
+           var xCen = width/2;
+           var yCen = height/2;
+           var cakeScale = width / 400;
+           var wished = false;
+           var blown = 0;
+           var name = "Elliott";
+           var age = 10;
+
+           var drawBackground = function() {
+               background(125, 231, 240);
+               fill(255, 0, 0);
+               textAlign(CENTER, CENTER);
+               if (!wished) {
+                    textSize(cakeScale*25);
+                    text("Make a wish!", xCen, cakeScale*40);
+                    textSize(cakeScale*15);
+                    text("Click or Tap to Blow Out the Candles", xCen, cakeScale*65);
+               }
+               else if (blown > age) {
+                   var someText="Testing, testing";
+                   textSize(cakeScale*20);
+                   text("Congrats on your second digit!", xCen, cakeScale*50);
+                   textSize(cakeScale*15);
+                   text("Love,", xCen, cakeScale*70);
+                   text("Gruncle Mike", xCen, cakeScale*85);
+               }
+           };
+
+           var drawCake = function() {
+
+               var off150 = cakeScale*150;
+               var off100 = cakeScale*100;
+               
+               // cake
+               fill(105, 60, 34);
+               noStroke();
+               ellipse(xCen, yCen+cakeScale*100, cakeScale*300, cakeScale*100);
+               quad(xCen-off150, yCen, xCen+off150, yCen, xCen+off150, yCen+off100, 
+                    xCen-off150, yCen+off100);
+               stroke(0, 0, 0);
+               fill(237, 216, 216);
+               ellipse(xCen, yCen, cakeScale*300, cakeScale*100);
+
+               fill(16, 224, 23);
+               textSize(cakeScale*24);
+               textAlign(CENTER, CENTER);
+               text("Happy Birthday", xCen, cakeScale*175);
+               textSize(cakeScale*30);
+               text(name + "!", xCen, cakeScale*200);
+           };
+
+           var putCandle = function(x, y) {
+               
+               var off3 = cakeScale*3;
+               var off40 = cakeScale*40;
+               
+               fill(180, 29, 194);
+               noStroke();
+               ellipse(x, y, cakeScale*6, cakeScale*3);
+               quad(x-off3, y, x+off3, y, x+off3, y-off40, x-off3, y-off40);
+               ellipse(x, y-cakeScale*40, cakeScale*6, cakeScale*3);
+           };
+
+           var putFlame = function(x, y, size) {
+               fill(224, 189, 16);
+               noStroke();
+               ellipse(x, y-(cakeScale*45+size/2), cakeScale*5, size);
+               
+           };
+
+           //
+           // Main program
+           //
+           frameRate(7);
+           draw = function() {
+               var x;
+               var y;
+               var off140 = cakeScale*140;
+               var off45 = cakeScale*45;
+               var pi = 3.141592654;
+               var theta = (360.0 / age) * (pi / 180.0);
+               
+               drawBackground();
+               drawCake();
+               for (var i = 0; i < age; i++) {
+                   x = xCen + off140 * cos(i * theta);
+                   y = yCen +  off45 * sin(i * theta);
+                   putCandle(x, y);
+               }
+               for (var i = 0; i < age; i++) {
+                   x = xCen + off140 * cos(i * theta);
+                   y = yCen + off45 * sin(i * theta);
+                   if (i >= blown) {
+                       putFlame(x, y, random(cakeScale*8, cakeScale*30));
+                   }
+               }
+               if (wished) {
+                   blown++;
+               }
+           };
+
+           var mouseClicked = function() {
+               wished = true;
+           };
+       }};
+       //
+       // Get the canvas that Processing-js will use
+       var canvas = document.getElementById("mycanvas"); 
+       // Pass the function sketchProc (defined in myCode.js) to Processing's constructor.
+       var processingInstance = new Processing(canvas, sketchProc); 
+    </script>
+</html>
