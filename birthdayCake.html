@@ -31,7 +31,7 @@ https://github.com/Team-Code/KA_Offline -->
        var sketchProc = function(processingInstance) {
            with (processingInstance) {
 
-           var cakeSize = window.innerHeight - 35;
+           var cakeSize = min(window.innerWidth, window.innerHeight) - 35;
            size(cakeSize, cakeSize);
            frameRate(30);
            
