@@ -110,10 +110,10 @@ function drawBackground() {
       textSize(SCALE*25);
       text("Make a wish!", xCen, SCALE*40);
       textSize(SCALE*15);
-      text("Click to Blow Out the Candles", xCen, SCALE*65);
+      text("Click or Tap to Blow Out the Candles", xCen, SCALE*65);
     }
     else if (blown > age) {
-      textSize(SCALE*25);
+      textSize(SCALE*30);
       text("Have a Great Day!", xCen, SCALE*40);
     }
 }
