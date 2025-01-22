@@ -83,14 +83,15 @@ function getInfo() {
    text("Name", xCen-40*SCALE, yCen);
    nameInput = createInput();
    nameInput.position(xCen, yCen);
+   nameInput.size(50*SCALE);
 
-   text("Age", xCen-32*SCALE, yCen+20*SCALE);
+   text("Age", xCen-32*SCALE, yCen+30*SCALE);
    ageInput = createInput();
-   ageInput.position(xCen, yCen+20*SCALE);
+   ageInput.position(xCen, yCen+30*SCALE);
    ageInput.size(20*SCALE);
 
-   button = createButton("Order");
-   button.position(xCen, yCen+50*SCALE);
+   button = createButton("Done");
+   button.position(xCen-20*SCALE, yCen+60*SCALE);
    button.mousePressed(setInfo);
 }
 
