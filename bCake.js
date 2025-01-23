@@ -90,7 +90,7 @@ function getInfo() {
    ageInput.position(xCen, yCen+30*SCALE);
    ageInput.size(20*SCALE);
 
-   button = createButton("Done");
+   button = createButton("Enter");
    button.position(xCen-20*SCALE, yCen+60*SCALE);
    button.mousePressed(setInfo);
 }
