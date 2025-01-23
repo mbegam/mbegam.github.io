@@ -25,13 +25,25 @@
          .a-note {
               margin-left: 7px;
          }
+         .auDiv {
+            display: flex;
+            height: 5.0em;
+         }
+         .viDiv {
+            display: flex;
+            height: 5.0em;
+         }
+         .track {
+            width: 30%;
+            font-size: 1.5em;
+            color: White;
+         }
       </style>
       <title>This Website</title> 
    </head>
 
    <body>
       <h1>On the Slab</h1>
-         <span style="font-size: 1.5em;">All code is my own</span><br>
          <span style="font-size: 1.5em;">Links in italics require a keyboard and/or mouse</span>
          <p>
          <h2>ARO Simulations</h2>
@@ -67,6 +79,27 @@
             <span class="a-note">Still buggy but playable</span>
          <h2>Drawings</h2>
             <a href="gallery.html">Gallery</a><br>
-         </p>
+         <h2>Music</h2>
+            <div class="auDiv">
+               <span class="track">Banjo Lullaby '83</span>
+               <audio controls>
+                  <source src="banjoLullaby.mp3" type="audio/mpeg">
+               </audio>
+            </div>
+            <div class="auDiv">
+               <span class="track">      Piano Mix '79</span>
+               <audio controls>
+                  <source src="piano.mp3" type="audio/mpeg">
+               </audio>
+            </div>
+<!--
+            <div class="viDiv">
+               <span class="track">Sonatina...</span>
+               <video controls>
+                  <source src="iSonatina24video.mp4" type="video/mp4">
+               </video>
+            </div>
+-->
+            <br>
    </body>
 </html>
