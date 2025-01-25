@@ -99,6 +99,7 @@ function setInfo() {
    name = nameInput.value();
    age = ageInput.value();
    removeElements();
+   resizeCanvas(SIZE, SIZE);
 }
 
 function drawBackground() {
