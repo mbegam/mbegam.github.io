@@ -1,315 +1,261 @@
 <!DOCTYPE html>
-<!-- This is based on DillingerLee's great template here:
-https://github.com/Team-Code/KA_Offline -->
-
 <html> 
-
- <head>
- <style>
- body {
-    background-color: Gray;
- }
-    <title>Processing.JS inside Webpages: Template</title> 
-</style>
-</head>
-
- <body>
-    <p align="center"> 
-	<!--This draws the Canvas on the webpage -->
-      <canvas id="mycanvas"></canvas> 
-    </p>
- </body>
+   <head>
+      <style>
+         body {
+            background-color: Gray;
+         }
+      </style>
+      <title>12m Rocker Stops</title> 
+   </head>
+   <body>
+      <p align="center"> 
+         <canvas id="mycanvas"></canvas> 
+      </p>
+   </body>
  
- <!-- Run all the JavaScript stuff -->
- <!-- Include the processing.js library -->
- <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
- 
- <script>
-    var sketchProc = function(processingInstance) {
-     with (processingInstance) {
-        var SIZE = min(window.innerWidth, window.innerHeight) - 35;
-        size(SIZE, SIZE);
-        smooth();
-        frameRate(30);
-        
-        // ProgramCodeGoesHere
-        //
+   <!-- Include the processing.js library -->
+   <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
 
-        //
-        // ARO 12m Telescope AZ-Limit Rocker-Stops Sim
-        // 
-        // M.C. Begam   3 May 2020   
-        //
-        // Version 7
-        //
-        // Modified for use outside KA:
-        //     resizable
-        //     trig and rotation functions use radians
-        //     sound effects disabled
-
-        var pi = 3.141592654;
-        var rad = pi / 180.0;
-        var rsScale = width / 400.0;
-        var az = 180.0;
-        var theta = rad*(az - 180.0);
-
-        var theta0 = atan(15.0 / 145.0);
-        var thetaR1 =  theta0;
-        var thetaR2 = -theta0;
-
-        var R1azMin = 87.0;
-        var R1azMax = 105.0;
-        var R2azMin = 255.0;
-        var R2azMax = 273.0;
-
-        var R1x =  width/2 + rsScale*125.0 * cos(pi/2 - theta0);
-        var R1y =  width/2 - rsScale*125.0 * sin(pi/2 - theta0);
-        var R2x =  R1x;
-        var R2y =  width - R1y;
-        var Ax  =  0.0;
-        var Ay  = -25.0*rsScale * sin(rad*20.0);
-        var Dx1 = -25.0*rsScale * cos(rad*20.0);
-        var Dx2 =  25.0*rsScale * cos(rad*20.0);
-        var Dx3 =  0.0;
-        var Dy1 =  0.0;
-        var Dy2 =  0.0;
-        var Dy3 = -50*rsScale * sin(rad*20.0);
-
-        var started = false;
-        var linesOn = false;
-        var hitLimit = false;
-
-        //var clop = getSound("rpg/hit-clop");
-        //var thud = getSound("rpg/hit-thud");
-
-        var drawBackground = function() {
-
-            fill(0, 0, 0);
-            textSize(rsScale*20);
-            background(255, 255, 255);
+   <script>
+      var sketchProc = function(processingInstance) {
+         with (processingInstance) {
+            var SIZE = min(window.innerWidth, window.innerHeight) - 35;
+            size(SIZE, SIZE);
+            smooth();
+            frameRate(30);
             
-            text("S", rsScale*195, rsScale*25);
-            text("E", rsScale*5, rsScale*208);
-            text("W", rsScale*375, rsScale*208);
-            text("N", rsScale*192, rsScale*390);
-            
-            noFill();
-            strokeWeight(rsScale);
-            ellipse(rsScale*200, rsScale*200, rsScale*250, rsScale*250); 
-        };
+            //
+            // ARO 12m Telescope AZ-Limit Rocker-Stops Sim
+            // 
+            // M.C. Begam   3 May 2020   
+            //
+            // Version 7
+            //
+            // Modified for use outside KA:
+            //     resizable
+            //     trig and rotation functions use radians
+            //     sound effects disabled
 
-        var drawSkirt = function() {
-            
-            var n = rsScale*165;
-            var cen = width/2;
+            var pi = 3.141592654;
+            var rad = pi / 180.0;
+            var rsScale = width / 400.0;
+            var az = 180.0;
+            var theta = rad*(az - 180.0);
 
-            noFill();
-            strokeWeight(rsScale);
-            
-            pushMatrix();
-            translate(cen, cen);
-            rotate(theta);
-            for (var i = 0; i < 18; i++) {
+            var theta0 = atan(15.0 / 145.0);
+            var thetaR1 =  theta0;
+            var thetaR2 = -theta0;
+
+            var R1azMin = 87.0;
+            var R1azMax = 105.0;
+            var R2azMin = 255.0;
+            var R2azMax = 273.0;
+
+            var R1x =  width/2 + rsScale*125.0 * cos(pi/2 - theta0);
+            var R1y =  width/2 - rsScale*125.0 * sin(pi/2 - theta0);
+            var R2x =  R1x;
+            var R2y =  width - R1y;
+            var Ax  =  0.0;
+            var Ay  = -25.0*rsScale * sin(rad*20.0);
+            var Dx1 = -25.0*rsScale * cos(rad*20.0);
+            var Dx2 =  25.0*rsScale * cos(rad*20.0);
+            var Dx3 =  0.0;
+            var Dy1 =  0.0;
+            var Dy2 =  0.0;
+            var Dy3 = -50*rsScale * sin(rad*20.0);
+
+            var started = false;
+            var linesOn = false;
+            var hitLimit = false;
+            var cwLimit = false;
+            var ccwLimit = false;
+            var cwOn = false;
+            var ccwOn = false;
+            var nClicks = 0;
+
+            //var clop = getSound("rpg/hit-clop");
+            //var thud = getSound("rpg/hit-thud");
+
+            var drawBackground = function() {
+
+                fill(0, 0, 0);
+                textSize(rsScale*20);
+                background(255, 255, 255);
+                
+                text("S", rsScale*195, rsScale*25);
+                text("E", rsScale*5, rsScale*208);
+                text("W", rsScale*375, rsScale*208);
+                text("N", rsScale*192, rsScale*390);
+                
+                noFill();
+                strokeWeight(rsScale);
+                ellipse(rsScale*200, rsScale*200, rsScale*250, rsScale*250); 
+            };
+
+            var drawSkirt = function() {
+                
+                var n = rsScale*165;
+                var cen = width/2;
+
+                noFill();
+                strokeWeight(rsScale);
+                
                 pushMatrix();
-                rotate(i*rad*20);
-                line(n, -n*tan(rad*10), n, n*tan(rad*10));
+                translate(cen, cen);
+                rotate(theta);
+                for (var i = 0; i < 18; i++) {
+                    pushMatrix();
+                    rotate(i*rad*20);
+                    line(n, -n*tan(rad*10), n, n*tan(rad*10));
+                    popMatrix();
+                }
                 popMatrix();
-            }
-            popMatrix();
-        };
+            };
 
-        var showLines = function() {
+            var showLines = function() {
 
-            // reference lines for testing
-            
-            var n = rsScale*165;
-            var cen = width/2;
+                // reference lines for testing
+                
+                var n = rsScale*165;
+                var cen = width/2;
 
-            strokeWeight(rsScale);
-            line(cen, 0, cen, width);
-            line(0, cen, width, cen);
-            line(cen, cen, cen+n*sin(theta0), cen-n*cos(theta0));
-            line(cen, cen, cen+n*sin(theta0), cen+n*cos(theta0));
-        };
+                strokeWeight(rsScale);
+                line(cen, 0, cen, width);
+                line(0, cen, width, cen);
+                line(cen, cen, cen+n*sin(theta0), cen-n*cos(theta0));
+                line(cen, cen, cen+n*sin(theta0), cen+n*cos(theta0));
+            };
 
-        var showAz = function() {
+            var showAz = function() {
 
-            strokeWeight(rsScale);
-            textSize(rsScale*15);
-            text("AZ = ", rsScale*10, rsScale*25);
-            text(az, rsScale*50, rsScale*25);
-            textSize(rsScale*12);
-            if (az > 99) {
-                text("o", rsScale*78, rsScale*20);
-            }
-            else if (az >= 10 && az <= 99) {
-                text("o", rsScale*70, rsScale*20);
-            }
-            else if (az >= 0 && az <= 9) {
-                text("o", rsScale*62, rsScale*20);
-            }
-            else if (az >= -9 && az <= -1) {
-                text("o", rsScale*68, rsScale*20);
-            }
-            else {
-                text("o", rsScale*75, rsScale*20);
-            }
-        };
-            
-        var showHelp = function() {
-
-            strokeWeight(rsScale);
-            fill(255, 255, 255);
-            rect(rsScale*50, rsScale*175, rsScale*300, rsScale*50);
-            fill(26, 0, 255);
-            textSize(rsScale*16);
-            text("Use < and > to rotate CCW and CW", rsScale*75, rsScale*205);
-        };
-
-        var drawDish = function() {
-
-            var cen = width/2;
-            strokeWeight(rsScale);
-            noFill();
-            
-            pushMatrix();
-            translate(cen, cen);
-            rotate(theta);
-            arc(Ax, Ay, rsScale*50, rsScale*50, rad*20, rad*160);
-            triangle(Dx1, Dy1, Dx2, Dy2, Dx3, Dy3);
-            line(Dx1+rsScale*5, Dy1, Dx3, Dy3);
-            line(Dx2-rsScale*5, Dy2, Dx3, Dy3);
-            popMatrix();
-        };
-
-        var drawRocker1 = function() {
-
-            strokeWeight(rsScale);
-            
-            // Spring tension
-            if (az <= R1azMin) {
-                thetaR1 = -(pi/2) + theta0;
-            }
-            if (az >= R1azMax) {
-                thetaR1 = theta0;
-            }
-            
-            // Rotate and draw
-            pushMatrix();
-            translate(R1x, R1y);
-            rotate(thetaR1);
-            triangle(0, 0, rsScale*25, 0, 0, rsScale*(-25));
-            popMatrix();
-        };
-
-        var drawRocker2 = function() {
-
-            strokeWeight(rsScale);
-            
-            // Spring tension 
-            if (az >= R2azMax) {
-                thetaR2 = pi/2 - theta0;
-            }
-            if (az <= R2azMin) {
-                thetaR2 = -theta0;
-            }
-            
-            // Rotate and draw
-            pushMatrix();
-            translate(R2x, R2y);
-            rotate(thetaR2);
-            triangle(0, 0, 25*rsScale, 0, 0, 25*rsScale);
-            popMatrix();
-        };
-
-        var drawBumper = function() {
-
-            var cen = width/2;
-            noFill();
-            strokeWeight(rsScale*2);
-            
-            theta = rad*az - pi;
-            pushMatrix();
-            translate(cen, cen);
-            rotate(theta);
-            line(rsScale*145, 0, rsScale*165, 0);
-            line(rsScale*145, rsScale*(-15), rsScale*145, rsScale*15);
-            popMatrix();
-        };
-
-        var playEffect = function() {
-
-            switch(az) {
-                // rocker sound
-                case R1azMin:
-                case R1azMax:
-                case R2azMin:
-                case R2azMax:
-                //  playSound(clop);
-                    break;
-                // limit sound
-                case -90:
-                case 450:
-                    if (hitLimit === true) {
-                    //  playSound(thud);
-                        hitLimit = false;
-                    }
-                    break;
-                default:
-                    return;
-            }
-        };
-
-        //
-        // Main Loop
-        //
-        draw = function() {
-            
-            drawBackground();
-            showAz();
-            drawDish();
-            drawSkirt();
-            drawRocker1();
-            drawRocker2();
-            drawBumper();
-        //  playEffect();
-            
-            if (!started) {
-                showHelp();
-            }
-            if (linesOn) {
-                showLines();
-            }
-        };
-
-        //
-        // Mouse or Touch FUnctionality
-        //
-        mousePressed = function() {
-             
-            if (started === false) {
-                 started = true;
-                 return;
-            }
-
-            // Counterclockwise 
-
-            if (mouseX < width / 2 && az > -90) {
-                az--;
-                if (az > R1azMin && az < R1azMax && thetaR1 > -pi/2 + theta0) {
-                    thetaR1 -= rad*5;
+                strokeWeight(rsScale);
+                textSize(rsScale*15);
+                text("AZ = ", rsScale*10, rsScale*25);
+                text(az, rsScale*50, rsScale*25);
+                textSize(rsScale*12);
+                if (az > 99) {
+                    text("o", rsScale*78, rsScale*20);
                 }
-                if (az > R2azMin && az < R2azMax && thetaR2 > -theta0) {
-                    thetaR2 -= rad*5;
+                else if (az >= 10 && az <= 99) {
+                    text("o", rsScale*70, rsScale*20);
                 }
-                if (az === -90) {
-                    hitLimit = true;
+                else if (az >= 0 && az <= 9) {
+                    text("o", rsScale*62, rsScale*20);
                 }
-            }
-            
-            // Clockwise
+                else if (az >= -9 && az <= -1) {
+                    text("o", rsScale*68, rsScale*20);
+                }
+                else {
+                    text("o", rsScale*75, rsScale*20);
+                }
+            };
+                
+            var showHelp = function() {
 
-            if (mouseX >= width / 2 && az < 450) {
+                strokeWeight(rsScale);
+                fill(255, 255, 255);
+                rect(rsScale*50, rsScale*175, rsScale*300, rsScale*50);
+                fill(26, 0, 255);
+                textSize(rsScale*16);
+                text("Click/Tap to toggle CW/Stop/CCW", rsScale*75, rsScale*205);
+            };
+
+            var drawDish = function() {
+
+                var cen = width/2;
+                strokeWeight(rsScale);
+                noFill();
+                
+                pushMatrix();
+                translate(cen, cen);
+                rotate(theta);
+                arc(Ax, Ay, rsScale*50, rsScale*50, rad*20, rad*160);
+                triangle(Dx1, Dy1, Dx2, Dy2, Dx3, Dy3);
+                line(Dx1+rsScale*5, Dy1, Dx3, Dy3);
+                line(Dx2-rsScale*5, Dy2, Dx3, Dy3);
+                popMatrix();
+            };
+
+            var drawRocker1 = function() {
+
+                strokeWeight(rsScale);
+                
+                // Spring tension
+                if (az <= R1azMin) {
+                    thetaR1 = -(pi/2) + theta0;
+                }
+                if (az >= R1azMax) {
+                    thetaR1 = theta0;
+                }
+                
+                // Rotate and draw
+                pushMatrix();
+                translate(R1x, R1y);
+                rotate(thetaR1);
+                triangle(0, 0, rsScale*25, 0, 0, rsScale*(-25));
+                popMatrix();
+            };
+
+            var drawRocker2 = function() {
+
+                strokeWeight(rsScale);
+                
+                // Spring tension 
+                if (az >= R2azMax) {
+                    thetaR2 = pi/2 - theta0;
+                }
+                if (az <= R2azMin) {
+                    thetaR2 = -theta0;
+                }
+                
+                // Rotate and draw
+                pushMatrix();
+                translate(R2x, R2y);
+                rotate(thetaR2);
+                triangle(0, 0, 25*rsScale, 0, 0, 25*rsScale);
+                popMatrix();
+            };
+
+            var drawBumper = function() {
+
+                var cen = width/2;
+                noFill();
+                strokeWeight(rsScale*2);
+                
+                theta = rad*az - pi;
+                pushMatrix();
+                translate(cen, cen);
+                rotate(theta);
+                line(rsScale*145, 0, rsScale*165, 0);
+                line(rsScale*145, rsScale*(-15), rsScale*145, rsScale*15);
+                popMatrix();
+            };
+
+            var playEffect = function() {
+
+                switch(az) {
+                    // rocker sound
+                    case R1azMin:
+                    case R1azMax:
+                    case R2azMin:
+                    case R2azMax:
+                    //  playSound(clop);
+                        break;
+                    // limit sound
+                    case -90:
+                    case 450:
+                        if (hitLimit === true) {
+                        //  playSound(thud);
+                            hitLimit = false;
+                        }
+                        break;
+                    default:
+                        return;
+                }
+            };
+
+            var goCW = function() {
                 az++;
                 if (az > R2azMin && az < R2azMax && thetaR2 < pi/2 - theta0) {
                     thetaR2 += rad*5;
@@ -319,24 +265,12 @@ https://github.com/Team-Code/KA_Offline -->
                 }
                 if (az === 450) {
                     hitLimit = true;
+                    cwLimit = true;
+                    nClicks++;
                 }
-            }
-        };
+            };
 
-        //
-        // Keyboard Functionality
-        //
-        keyPressed = function() {
-            
-            // Turn off help after first keypress
-            if (started === false) {
-                 started = true;
-                 return;
-            }
-            
-            // Counterclockwise (Left Arrow)
-
-            if (keyCode === LEFT && az > -90) {
+            var goCCW = function() {
                 az--;
                 if (az > R1azMin && az < R1azMax && thetaR1 > -pi/2 + theta0) {
                     thetaR1 -= rad*5;
@@ -346,39 +280,108 @@ https://github.com/Team-Code/KA_Offline -->
                 }
                 if (az === -90) {
                     hitLimit = true;
+                    ccwLimit = true;
+                    nClicks++;
                 }
-            }
-            
-            // Clockwise (Right Arrow)
+            };
 
-            if (keyCode === RIGHT && az < 450) {
-                az++;
-                if (az > R2azMin && az < R2azMax && thetaR2 < pi/2 - theta0) {
-                    thetaR2 += rad*5;
+            //
+            // Main Loop
+            //
+
+            draw = function() {
+                
+                drawBackground();
+                showAz();
+                drawDish();
+                drawSkirt();
+                drawRocker1();
+                drawRocker2();
+                drawBumper();
+            //  playEffect();
+                
+                if (!started) {
+                    showHelp();
                 }
-                if (az > R1azMin && az < R1azMax && thetaR1 < theta0) {
-                    thetaR1 += rad*5;
+                if (linesOn) {
+                    showLines();
                 }
-                if (az === 450) {
-                    hitLimit = true;
+                if (cwOn && cwLimit === false) {
+                    goCW();
                 }
-            }
-            
-            // Toggle reference lines (l)
+                if (ccwOn && ccwLimit == false) {
+                    goCCW();
+                }
+            };
 
-            if (key.code === 108) {
-                linesOn = !linesOn;
-            }
-            
-            //println(key.code);
-        };
+            //
+            // Mouse or Touch Functionality
+            //
 
-    }};
-    //
-    // Get the canvas that Processing-js will use
-    var canvas = document.getElementById("mycanvas"); 
-    // Pass the function sketchProc (defined in myCode.js) to Processing's constructor.
-    var processingInstance = new Processing(canvas, sketchProc); 
- </script>
+            mousePressed = function() {
 
+                if (started === false) {
+                    started = true;
+                }
+    
+                var state = nClicks % 4; 
+
+                switch(state) {
+
+                    // Stop
+                    case 0:
+                    case 2:
+                         cwOn = false;
+                         ccwOn = false;
+                         break;
+
+                    // Clockwise
+                    case 1:
+                         if (!cwLimit) {
+                             cwOn = true 
+                             ccwOn = false;
+                             if (ccwLimit) {
+                                 ccwLimit = false;
+                             }
+                         }
+                         break;
+
+                    // Counter Clockwise
+                    case 3:
+                         if (!ccwLimit) {
+                             ccwOn = true;
+                             cwOn = false;
+                             if (cwLimit) {
+                                 cwLimit = false;
+                             }
+                         }
+                         break;
+
+                     // Never reached
+                     default:
+                         break;
+                }
+                nClicks++;
+            };
+
+            // Keyboard Functionality
+
+            keyPressed = function() {
+                // Toggle reference lines (l)
+
+                if (key.code === 108) {
+                    linesOn = !linesOn;
+                }
+                //println(key.code);
+            };
+         }
+      };
+
+      // Get the canvas that Processing-js will use
+      var canvas = document.getElementById("mycanvas"); 
+
+      // Pass the function sketchProc (defined in myCode.js) to Processing's constructor.
+      var processingInstance = new Processing(canvas, sketchProc); 
+
+   </script>
 </html>
