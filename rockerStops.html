@@ -306,10 +306,10 @@
                 if (linesOn) {
                     showLines();
                 }
-                if (cwOn && cwLimit === false) {
+                if (cwOn && !cwLimit) {
                     goCW();
                 }
-                if (ccwOn && ccwLimit == false) {
+                if (ccwOn && !ccwLimit) {
                     goCCW();
                 }
             };
@@ -320,7 +320,7 @@
 
             mousePressed = function() {
 
-                if (started === false) {
+                if (!started) {
                     started = true;
                 }
     
