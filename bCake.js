@@ -98,7 +98,11 @@ function getInfo() {
 function setInfo() {
    name = nameInput.value();
    age = ageInput.value();
+   
    removeElements();
+
+   // in case canvas got resized during input, as on a phone
+   resizeCanvas(SIZE, SIZE, true);
 }
 
 function drawBackground() {
