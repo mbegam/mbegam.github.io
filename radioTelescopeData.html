@@ -1,10 +1,5 @@
 <!DOCTYPE html>
-
-<!-- This is based on DillingerLee's great template here:
-     https://github.com/Team-Code/KA_Offline -->
-
 <html> 
-
    <head>
       <style>
          body {
@@ -14,16 +9,11 @@
       </style>
       <title>Radio Telescope Data</title> 
    </head>
-
    <body>
       <p align="center"> 
-  	<!--This draws the Canvas on the webpage -->
         <canvas id="mycanvas"></canvas> 
       </p>
    </body>
- 
-   <!-- Run all the JavaScript stuff -->
-
    <!-- Include the processing.js library -->
    <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
    
@@ -39,7 +29,7 @@
             //  M.C. Begam   18 Mar 2016
             //
             //  Simulates position-switched detection
-            //  of a 30-pixel line
+            //  of a 5-pixel line
             //
             //  Click in the window to pause/unpause
             //  Hit <Restart> for a new set of scans
@@ -81,13 +71,14 @@
 
             var plot = function() {
                 background(0, 0, 0);
+                strokeWeight((SCALE > 1.0) ? SCALE : 1.0 / SCALE);
                 stroke(0, 255, 0);
                 line(0, axis1, width-1, axis1);
                 line(0, axis2, width-1, axis2);
                 for (var i = 0; i < 128; i++) {
-                    line(( 36+i)*SCALE, axis1, ( 36+i)*SCALE, axis1-sig[i]*SCALE);
+                    line((36+i)*SCALE, axis1, (36+i)*SCALE, axis1-sig[i]*SCALE);
                     line((236+i)*SCALE, axis1, (236+i)*SCALE, axis1-ref[i]*SCALE);
-                    line(( 36+i)*SCALE, axis2, ( 36+i)*SCALE, axis2-raw[i]*SCALE);
+                    line((36+i)*SCALE, axis2, (36+i)*SCALE, axis2-raw[i]*SCALE);
                     line((236+i)*SCALE, axis2, (236+i)*SCALE, axis2-avg[i]*SCALE);
                 }
                 textSize(10*SCALE);
@@ -102,25 +93,34 @@
             // Main Program
 
             frameRate(1);
+
             draw = function() {
                 for (var i = 0; i < 128; i++) {
-                    // sky background plus signal in the center
+
+                    // sky background plus signal in center channel
+
                     sig[i] = random(10, 50);
                     if (i === 64) {
                         sig[i] += random(28, 32);
                     }
-                    // independent sky background
+
+                    // independent sky background alone
+
                     ref[i] = random(10, 50);
+
                     // raw spectrum
+
                     raw[i] = sig[i] - ref[i];
                 }
+
                 // compute running average and display
+
                 newAvg();
                 plot();
                 n++;
             };
 
-            // Click to pause/unpause the animation
+            // Click or tap to pause/unpause the animation
 
             mouseClicked = function() {
                 if (paused) {
