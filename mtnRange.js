@@ -1,10 +1,9 @@
 // Project Mountain Range
 //
-// M. C. Begam    7 Jan 2016
+// M. Begam    7 Jan 2016
 // p5.js version 17 Jan 2025
 //
 // Refresh the browser to get a different mountain range.
-// Hit <Restart> to get a different flock of birds.
 
 let nBirds = 20;
 let phase = 0;
@@ -83,9 +82,10 @@ function drawBackground() {
     let refX;
     let refY;
     let a;
-    for (let i = 0; i < 500; i++) {
-        refY = SIZE/2 + abs(randomGaussian()) * 15 * SCALE;;
-        a = ((SIZE/2)/refY) * 27 * SCALE;
+    let nrefs = round(800*SCALE);
+    for (let i = 0; i < nrefs; i++) {
+        refY = SIZE/2 + abs(randomGaussian()) * 25 * SCALE;;
+        a = 27 * SCALE + (refY - (SIZE/2));
         refX = round(random(50*SCALE-a, 50*SCALE+a));
         point(refX, refY);
     }
@@ -149,7 +149,10 @@ function drawBird(x, y, size, phi) {
 }
 
 function drawRange(ty, tz, mtnColor, mtnHeight) {
-    noiseDetail(3, 0.5);
+   
+    // parameters determined by trial and error 
+    noiseDetail(4, 0.25);
+
     let incAmount = 0.02;
     for (let tx = 0; tx < SIZE; tx++) {
         let n = noise(tx*incAmount, ty, tz);
