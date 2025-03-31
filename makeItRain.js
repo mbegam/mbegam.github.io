@@ -96,9 +96,7 @@ function draw() {
 
 // click or tap to add more "drops"
 
-function mouseClicked() {
-    //xPos.push(round(random(0, 400)*SCALE));
-    //yPos.push(round(random(-400, 0)*SCALE));
+function mousePressed() {
     xPos.push(mouseX);
     yPos.push(mouseY);
     speeds.push(round(random(3, 5)*SCALE));
