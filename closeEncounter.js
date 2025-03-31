@@ -31,7 +31,7 @@ function preload() {
 
 function setup() {
 
-    SIZE = min(windowWidth, windowHeight) - 34;
+    SIZE = min(window.innerWidth, window.innerHeight) - 34;
     SCALE = SIZE / 400;
   
     createCanvas(SIZE, SIZE);
