@@ -22,11 +22,17 @@
          }
          audio {
             height: 1.5em;
-            margin-left: 2%;
          }
          video {
             height: 6.0em;
+         }
+         .auDiv {
             margin-left: 2%;
+            height: 2.0em;
+         }
+         .viDiv {
+            margin-left: 2%;
+            height: 8.0em;
          }
          .track {
             color: White;
@@ -41,30 +47,42 @@
       <h1> Music Library </h1>
       <h2> Live Recordings (Audio Only) </h2>
          <p class="track"> Banjo Lullaby '83 </p>
-         <audio controls>
-            <source src="music_lib/banjoLullaby.mp3" type="audio/mpeg">
-         </audio>
+         <div class="auDiv">
+            <audio controls>
+               <source src="music_lib/banjoLullaby.mp3" type="audio/mpeg">
+            </audio>
+         </div>
          <p class="track"> Piano Mix '79 </p>
-         <audio controls>
-            <source src="music_lib/piano.mp3" type="audio/mpeg">
-         </audio>
+         <div class="auDiv ">
+            <audio controls>
+               <source src="music_lib/piano.mp3" type="audio/mpeg">
+            </audio>
+         </div>
       <h2> Digital Recordings (Audio & Video) </h2>
          <p class="track"> Opus 1 </p>
-         <video controls>
-            <source src="music_lib/Opus1.mp4" type="video/mp4">
-         </video>
+         <div class="viDiv">
+            <video controls>
+               <source src="music_lib/Opus1.mp4" type="video/mp4">
+            </video>
+         </div>
          <p class="track"> Linear & Cadential 6:4 Chords </p>
-         <video controls>
-            <source src="music_lib/LinearAndCadential64.mp4" type="video/mp4">
-         </video>
+         <div class="viDiv">
+            <video controls>
+               <source src="music_lib/LinearAndCadential64.mp4" type="video/mp4">
+            </video>
+         </div>
          <p class="track"> Linear 6:4 & Other Chords </p>
-         <video controls>
-            <source src="music_lib/Linear64etal.mp4" type="video/mp4">
-         </video>
+         <div class="viDiv">
+            <video controls>
+               <source src="music_lib/Linear64etal.mp4" type="video/mp4">
+            </video>
+         </div>
          <p class="track"> Untitled Homework </p>
-         <video controls>
-            <source src="music_lib/Untitled10_3.mp4" type="video/mp4">
-         </video>
+         <div class="viDiv">
+            <video controls>
+               <source src="music_lib/Untitled10_3.mp4" type="video/mp4">
+            </video>
+         </div>
       <h2> Sheet Music (pdf) </h2>
          <a href="music_lib/Opus1.pdf"> Opus 1 </a><br> 
          <a href="music_lib/LinearAndCadential64.pdf"> Linear & Cadential 6:4 Chords </a><br> 
