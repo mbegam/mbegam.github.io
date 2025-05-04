@@ -230,7 +230,7 @@ function draw() {
     drawInner();
 }
 
-function mouseClicked() {
+function mousePressed() {
     
     let d = dist(mouseX, mouseY, cen, cen);
 
