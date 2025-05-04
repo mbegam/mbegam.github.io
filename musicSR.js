@@ -20,7 +20,7 @@ function setup() {
     SCALE = SIZE / 400;
     createCanvas(SIZE, SIZE);
 
-    R = 75*SCALE;      // radius of interval scale
+    R = 100*SCALE;      // radius of interval scale
     cen = 200*SCALE;
     thetaInner = 0;
     thetaOuter = 0;
