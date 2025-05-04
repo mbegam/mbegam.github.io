@@ -232,6 +232,10 @@ function draw() {
 
 function mousePressed() {
     
+    if (innerOn || outerOn) {
+        return;
+    }
+
     let d = dist(mouseX, mouseY, cen, cen);
 
     if (mouseX > cen) {
