@@ -45,7 +45,7 @@ function drawInner() {
 
     // Inner Pitch Scale
 
-    textSize(12*SCALE);
+    textSize(16*SCALE);
 
     for (let i = 0; i < 12; i++) {
         
@@ -159,7 +159,7 @@ function drawOuter() {
 
     // Outer Pitch Scale
 
-    textSize(12*SCALE);
+    textSize(16*SCALE);
     for (let i = 0; i < 12; i++) {
         
         switch(i) {
