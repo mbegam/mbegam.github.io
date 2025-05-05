@@ -58,7 +58,7 @@ function drawInner() {
                 fill(50, 50, 50);
                 break;
             default:
-                fill(255, 255, 255);
+                fill(250, 245, 235);
                 break;
         }
         arc(0, 0, 1.5*R, 1.5*R, 255, 285, PIE);
@@ -87,30 +87,34 @@ function drawInner() {
 
     //  Interval Scale
 
-    fill(0, 255, 0); 
+    // white background for tranparent colors
+    fill(255, 255, 255);
+    ellipse(0, 0, R, R);
+
+    fill(0, 255, 0, 150); 
     arc(0, 0, R, R, 255, 285, PIE);
     rotate(45);
 
-    fill(255, 255, 255); 
+    fill(200, 180, 150); 
     arc(0, 0, R, R, 240, 300, PIE);
     rotate(60);
 
     arc(0, 0, R, R, 240, 300, PIE);
     rotate(45);
 
-    fill(0, 255, 0); 
+    fill(0, 255, 0, 150); 
     arc(0, 0, R, R, 255, 285, PIE);
     rotate(30);
 
-    fill(255, 0, 0); 
+    fill(255, 0, 0, 180); 
     arc(0, 0, R, R, 255, 285, PIE);
     rotate(30);
 
-    fill(0, 255, 0); 
+    fill(0, 255, 0, 150); 
     arc(0, 0, R, R, 255, 285, PIE);
     rotate(45);
 
-    fill(255, 255, 255); 
+    fill(200, 180, 150); 
     arc(0, 0, R, R, 240, 300, PIE);
     rotate(60);
 
@@ -171,7 +175,7 @@ function drawOuter() {
                 fill(50, 50, 50);
                 break;
             default:
-                fill(255, 255, 255);
+                fill(250, 245, 235);
                 break;
         }
         arc(0, 0, 2.0*R, 2.0*R, 255, 285, PIE);
