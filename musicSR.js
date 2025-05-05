@@ -87,37 +87,47 @@ function drawInner() {
 
     //  Interval Scale
 
-    // white background for tranparent colors
+    //  white background for tranparent colors
     fill(255, 255, 255);
     ellipse(0, 0, R, R);
 
+    // 1
     fill(0, 255, 0, 150); 
     arc(0, 0, R, R, 255, 285, PIE);
     rotate(45);
 
-    fill(200, 180, 150); 
+    // 2
+    fill(230, 0, 0, 120);
     arc(0, 0, R, R, 240, 300, PIE);
     rotate(60);
 
+    // 3
+    fill(200, 150, 0, 150);
     arc(0, 0, R, R, 240, 300, PIE);
     rotate(45);
 
+    // 4
     fill(0, 255, 0, 150); 
     arc(0, 0, R, R, 255, 285, PIE);
     rotate(30);
 
-    fill(255, 0, 0, 180); 
+    // Tritone
+    fill(255, 0, 0, 200); 
     arc(0, 0, R, R, 255, 285, PIE);
     rotate(30);
 
+    // 5
     fill(0, 255, 0, 150); 
     arc(0, 0, R, R, 255, 285, PIE);
     rotate(45);
 
-    fill(200, 180, 150); 
+    // 6
+    fill(200, 150, 0, 150); 
     arc(0, 0, R, R, 240, 300, PIE);
     rotate(60);
 
+    // 7
+    fill(230, 0, 0, 120);
     arc(0, 0, R, R, 240, 300, PIE);
     rotate(45);
 
