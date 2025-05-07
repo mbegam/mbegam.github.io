@@ -73,33 +73,21 @@ function drawMode() {
 
     // Mode Scale Labels
 
+    // Major
     if (modeSelect % 4 == 0) {
         fill(0, 0, 0);
         text("Major", 0, -1.25*R);
     }
+
+    // Minor (natural)
     else if (modeSelect % 4 == 1) {
         fill(0, 0, 0);
         rotate(270);
         text("Minor", 0, -1.25*R);
     }
+  
+    // All Modern Western
     else if (modeSelect % 4 == 2) {
-        fill(0, 0, 0);
-        text("C", 0, -1.25*R);
-        rotate(60);
-        text("D", 0, -1.25*R);
-        rotate(60);
-        text("E", 0, -1.25*R);
-        rotate(30);
-        text("F", 0, -1.25*R);
-        rotate(60);
-        text("G", 0, -1.25*R);
-        rotate(60);
-        text("A", 0, -1.25*R);
-        rotate(60);
-        text("B", 0, -1.25*R);
-        rotate(30);
-    }
-    else {
         fill(0, 0, 0);
         text("Ion", 0, -1.25*R);
         // text("(M)", 0, -1.05*R);
@@ -118,6 +106,26 @@ function drawMode() {
         text("Locr", 0, -1.25*R);
         rotate(30);
         rotate(90);
+    }
+
+    // Transpose mode
+
+    else {
+        fill(0, 0, 0);
+        text("C", 0, -1.25*R);
+        rotate(60);
+        text("D", 0, -1.25*R);
+        rotate(60);
+        text("E", 0, -1.25*R);
+        rotate(30);
+        text("F", 0, -1.25*R);
+        rotate(60);
+        text("G", 0, -1.25*R);
+        rotate(60);
+        text("A", 0, -1.25*R);
+        rotate(60);
+        text("B", 0, -1.25*R);
+        rotate(30);
     }
     resetMatrix();
 }
