@@ -15,7 +15,7 @@ let CCW;
 let intervalOn;
 let modeOn;
 let pitchOn;
-let modeLocked;
+let modeSelect;
 
 function setup() {
 
@@ -33,7 +33,7 @@ function setup() {
     intervalOn = false;
     modeOn = false;
     pitchOn = false;
-    modeLocked = false;
+    modeSelect = 3;
 
     angleMode(DEGREES);
     ellipseMode(RADIUS);
@@ -71,26 +71,51 @@ function drawMode() {
         rotate(30);
     }
 
-    // Mode Pitch Scale Labels
+    // Mode Scale Labels
 
-    fill(0, 0, 0);
-    text("C", 0, -1.25*R);
-    text("M", 0, -1.05*R);
-    rotate(60);
-    text("D", 0, -1.25*R);
-    rotate(60);
-    text("E", 0, -1.25*R);
-    rotate(30);
-    text("F", 0, -1.25*R);
-    rotate(60);
-    text("G", 0, -1.25*R);
-    rotate(60);
-    text("A", 0, -1.25*R);
-    text("m", 0, -1.05*R);
-    rotate(60);
-    text("B", 0, -1.25*R);
-    rotate(30);
-
+    if (modeSelect % 3 == 0) {
+        fill(0, 0, 0);
+        text("M", 0, -1.25*R);
+        rotate(270);
+        text("m", 0, -1.25*R);
+    }
+    else if (modeSelect % 3  == 1) {
+        fill(0, 0, 0);
+        text("C", 0, -1.25*R);
+        rotate(60);
+        text("D", 0, -1.25*R);
+        rotate(60);
+        text("E", 0, -1.25*R);
+        rotate(30);
+        text("F", 0, -1.25*R);
+        rotate(60);
+        text("G", 0, -1.25*R);
+        rotate(60);
+        text("A", 0, -1.25*R);
+        rotate(60);
+        text("B", 0, -1.25*R);
+        rotate(30);
+    }
+    else {
+        fill(0, 0, 0);
+        text("Ion", 0, -1.25*R);
+        // text("(M)", 0, -1.05*R);
+        rotate(60);
+        text("Dor", 0, -1.25*R);
+        rotate(60);
+        text("Phry", 0, -1.25*R);
+        rotate(30);
+        text("Lyd", 0, -1.25*R);
+        rotate(60);
+        text("Mixo", 0, -1.25*R);
+        rotate(60);
+        text("Aeol", 0, -1.25*R);
+        // text("(m)", 0, -1.05*R);
+        rotate(60);
+        text("Locr", 0, -1.25*R);
+        rotate(30);
+        rotate(90);
+    }
     resetMatrix();
 }
 
@@ -185,7 +210,7 @@ function drawPitch() {
     translate(cen, cen);
     rotate(thetaPitch);
 
-    // Pitch Pitch Scale
+    //  Pitch Scale
 
     textSize(16*SCALE);
     for (let i = 0; i < 12; i++) {
@@ -227,6 +252,16 @@ function drawPitch() {
 
 }
 
+function drawModeSelect() {
+
+     fill(50, 50, 50);
+     ellipse(cen, cen, R/4.0, R/4.0);
+     textSize(15.0*SCALE);
+     textAlign(CENTER, CENTER);
+     fill(250, 245, 235);
+     text("Mode", cen, cen);
+}
+
 function draw() {
 
     background(100, 150, 200);
@@ -264,6 +299,7 @@ function draw() {
     drawPitch();
     drawMode();
     drawInterval();
+    drawModeSelect();
 }
 
 function mousePressed() {
@@ -285,7 +321,10 @@ function mousePressed() {
 
     // set wheel selection
 
-    if (d < R) {
+    if (d < R/4.0) {
+        modeSelect++;
+    }
+    else if (d > R/4.0 && d < R) {
         intervalOn = true;
     }
     else if (d > R && d < 1.5*R) {
