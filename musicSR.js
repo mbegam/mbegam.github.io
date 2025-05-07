@@ -33,7 +33,7 @@ function setup() {
     intervalOn = false;
     modeOn = false;
     pitchOn = false;
-    modeSelect = 3;
+    modeSelect = 4;
 
     angleMode(DEGREES);
     ellipseMode(RADIUS);
@@ -73,13 +73,16 @@ function drawMode() {
 
     // Mode Scale Labels
 
-    if (modeSelect % 3 == 0) {
+    if (modeSelect % 4 == 0) {
         fill(0, 0, 0);
-        text("M", 0, -1.25*R);
-        rotate(270);
-        text("m", 0, -1.25*R);
+        text("Major", 0, -1.25*R);
     }
-    else if (modeSelect % 3  == 1) {
+    else if (modeSelect % 4 == 1) {
+        fill(0, 0, 0);
+        rotate(270);
+        text("Minor", 0, -1.25*R);
+    }
+    else if (modeSelect % 4 == 2) {
         fill(0, 0, 0);
         text("C", 0, -1.25*R);
         rotate(60);
@@ -254,6 +257,7 @@ function drawPitch() {
 
 function drawModeSelect() {
 
+     //fill(100, 150, 200);
      fill(50, 50, 50);
      ellipse(cen, cen, R/4.0, R/4.0);
      textSize(15.0*SCALE);
