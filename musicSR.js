@@ -7,12 +7,15 @@ let R;
 let cen;
 let SIZE;
 let SCALE;
-let thetaInner;
-let thetaOuter;
+let thetaMode;
+let thetaPitch;
+let thetaInterval;
 let CW;
 let CCW;
-let innerOn;
-let outerOn;
+let intervalOn;
+let modeOn;
+let pitchOn;
+let modeLocked;
 
 function setup() {
 
@@ -22,12 +25,15 @@ function setup() {
 
     R = 100*SCALE;      // radius of interval scale
     cen = 200*SCALE;
-    thetaInner = 0;
-    thetaOuter = 0;
+    thetaMode = 0;
+    thetaPitch = 0;
+    thetaInterval = 0;
     CW = 30;
     CCW = 30;
-    innerOn = false;
-    outerOn = false;
+    intervalOn = false;
+    modeOn = false;
+    pitchOn = false;
+    modeLocked = false;
 
     angleMode(DEGREES);
     ellipseMode(RADIUS);
@@ -38,12 +44,12 @@ function setup() {
     frameRate(60);
 }
 
-function drawInner() {
+function drawMode() {
 
     translate(cen, cen);
-    rotate(thetaInner);
+    rotate(thetaMode);
 
-    // Inner Pitch Scale
+    // Mode Pitch Scale
 
     textSize(16*SCALE);
 
@@ -65,7 +71,7 @@ function drawInner() {
         rotate(30);
     }
 
-    // Inner Pitch Scale Labels
+    // Mode Pitch Scale Labels
 
     fill(0, 0, 0);
     text("C", 0, -1.25*R);
@@ -84,6 +90,14 @@ function drawInner() {
     rotate(60);
     text("B", 0, -1.25*R);
     rotate(30);
+
+    resetMatrix();
+}
+
+function drawInterval() {
+
+    translate(cen, cen);
+    rotate(thetaInterval);
 
     //  Interval Scale
 
@@ -166,12 +180,12 @@ function drawInner() {
     resetMatrix();
 }
 
-function drawOuter() {
+function drawPitch() {
 
     translate(cen, cen);
-    rotate(thetaOuter);
+    rotate(thetaPitch);
 
-    // Outer Pitch Scale
+    // Pitch Pitch Scale
 
     textSize(16*SCALE);
     for (let i = 0; i < 12; i++) {
@@ -192,7 +206,7 @@ function drawOuter() {
         rotate(30);
     }
 
-    // Outer Pitch Scale Labels
+    //  Pitch Scale Labels
 
     fill(0, 0, 0);
     text("C", 0, -1.75*R);
@@ -218,39 +232,49 @@ function draw() {
     background(100, 150, 200);
 
     if (CW < 30) {
-        if (innerOn) {
-            thetaInner++;
+        if (intervalOn) {
+            thetaInterval++;
         }
-        if (outerOn) {
-            thetaOuter++;
+        if (modeOn) {
+            thetaMode++;
+        }
+        if (pitchOn) {
+            thetaPitch++;
         }
         CW++;
     }
     else if (CCW < 30) {
-        if (innerOn) {
-            thetaInner--;
+        if (intervalOn) {
+            thetaInterval--;
         }
-        if (outerOn) {
-            thetaOuter--;
+        if (modeOn) {
+            thetaMode--;
+        }
+        if (pitchOn) {
+            thetaPitch--;
         }
         CCW++;
     }
     else {
-        innerOn = false;
-        outerOn = false;
+        intervalOn = false;
+        modeOn = false;
+        pitchOn = false;
     }
 
-    drawOuter();
-    drawInner();
+    drawPitch();
+    drawMode();
+    drawInterval();
 }
 
 function mousePressed() {
     
-    if (innerOn || outerOn) {
+    if (intervalOn || modeOn || pitchOn) {
         return;
     }
 
     let d = dist(mouseX, mouseY, cen, cen);
+
+    // set direction
 
     if (mouseX > cen) {
         CW = 0;
@@ -258,14 +282,22 @@ function mousePressed() {
     else {
         CCW = 0;
     }
-    if (d < 1.5*R) {
-        innerOn = true;
+
+    // set wheel selection
+
+    if (d < R) {
+        intervalOn = true;
+    }
+    else if (d > R && d < 1.5*R) {
+        intervalOn = true;
+        modeOn = true;
     }
     else if (d > 1.5*R && d < 2.0*R) {
-        outerOn = true;
+        pitchOn = true;
     }
     else {
-        innerOn = true;
-        outerOn = true;
+        intervalOn = true;
+        modeOn = true;
+        pitchOn = true;
     }
 }
