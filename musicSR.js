@@ -9,7 +9,7 @@ let SIZE;
 let SCALE;
 let thetaMode;
 let thetaPitch;
-let thetaInterval;
+let thetaDegree;
 let CW;
 let CCW;
 let intervalOn;
@@ -23,11 +23,11 @@ function setup() {
     SCALE = SIZE / 400;
     createCanvas(SIZE, SIZE);
 
-    R = 100*SCALE;      // radius of interval scale
+    R = 100*SCALE;      // radius of degree scale
     cen = 200*SCALE;
     thetaMode = 0;
     thetaPitch = 0;
-    thetaInterval = 0;
+    thetaDegree = 0;
     CW = 30;
     CCW = 30;
     intervalOn = false;
@@ -130,12 +130,12 @@ function drawMode() {
     resetMatrix();
 }
 
-function drawInterval() {
+function drawDegree() {
 
     translate(cen, cen);
-    rotate(thetaInterval);
+    rotate(thetaDegree);
 
-    //  Interval Scale
+    //  Degree Scale
 
     //  white background for tranparent colors
     fill(255, 255, 255);
@@ -181,7 +181,7 @@ function drawInterval() {
     arc(0, 0, R, R, 240, 300, PIE);
     rotate(45);
 
-    // Interval Scale Labels
+    // Degree Scale Labels
 
     fill(0, 0, 0);
 
@@ -265,8 +265,8 @@ function drawPitch() {
 
 function drawModeSelect() {
 
-     //fill(100, 150, 200);
-     fill(50, 50, 50);
+     fill(100, 150, 200);
+     // fill(50, 50, 50);
      ellipse(cen, cen, R/4.0, R/4.0);
      textSize(15.0*SCALE);
      textAlign(CENTER, CENTER);
@@ -280,7 +280,7 @@ function draw() {
 
     if (CW < 30) {
         if (intervalOn) {
-            thetaInterval++;
+            thetaDegree++;
         }
         if (modeOn) {
             thetaMode++;
@@ -292,7 +292,7 @@ function draw() {
     }
     else if (CCW < 30) {
         if (intervalOn) {
-            thetaInterval--;
+            thetaDegree--;
         }
         if (modeOn) {
             thetaMode--;
@@ -310,7 +310,7 @@ function draw() {
 
     drawPitch();
     drawMode();
-    drawInterval();
+    drawDegree();
     drawModeSelect();
 }
 
