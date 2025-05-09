@@ -33,7 +33,7 @@ function setup() {
     intervalOn = false;
     modeOn = false;
     pitchOn = false;
-    modeSelect = 4;
+    modeSelect = 5;
 
     angleMode(DEGREES);
     ellipseMode(RADIUS);
@@ -49,7 +49,7 @@ function drawMode() {
     translate(cen, cen);
     rotate(thetaMode);
 
-    // Mode Pitch Scale
+    // Mode Scale
 
     textSize(16*SCALE);
 
@@ -73,59 +73,69 @@ function drawMode() {
 
     // Mode Scale Labels
 
-    // Major
-    if (modeSelect % 4 == 0) {
-        fill(0, 0, 0);
-        text("Major", 0, -1.25*R);
-    }
+    switch(modeSelect % 5) {
 
-    // Minor (natural)
-    else if (modeSelect % 4 == 1) {
-        fill(0, 0, 0);
-        rotate(270);
-        text("Minor", 0, -1.25*R);
-    }
-  
-    // All Modern Western
-    else if (modeSelect % 4 == 2) {
-        fill(0, 0, 0);
-        text("Ion", 0, -1.25*R);
-        // text("(M)", 0, -1.05*R);
-        rotate(60);
-        text("Dor", 0, -1.25*R);
-        rotate(60);
-        text("Phry", 0, -1.25*R);
-        rotate(30);
-        text("Lyd", 0, -1.25*R);
-        rotate(60);
-        text("Mixo", 0, -1.25*R);
-        rotate(60);
-        text("Aeol", 0, -1.25*R);
-        // text("(m)", 0, -1.05*R);
-        rotate(60);
-        text("Locr", 0, -1.25*R);
-        rotate(30);
-        rotate(90);
-    }
+        // No Labels (useful for interval ID)
+        case 0:   
+            break;
 
-    // Transpose mode
+        // Major
+        case 1:  
+            fill(0, 0, 0);
+            text("Major", 0, -1.25*R);
+            break;
 
-    else {
-        fill(0, 0, 0);
-        text("C", 0, -1.25*R);
-        rotate(60);
-        text("D", 0, -1.25*R);
-        rotate(60);
-        text("E", 0, -1.25*R);
-        rotate(30);
-        text("F", 0, -1.25*R);
-        rotate(60);
-        text("G", 0, -1.25*R);
-        rotate(60);
-        text("A", 0, -1.25*R);
-        rotate(60);
-        text("B", 0, -1.25*R);
-        rotate(30);
+        // Minor (Natural)
+        case 2:                       
+            fill(0, 0, 0);
+            rotate(270);
+            text("Minor", 0, -1.25*R);
+            break;
+
+        // All Modern Western
+        case 3:  
+            fill(0, 0, 0);
+            text("Ion", 0, -1.25*R);
+            // text("(M)", 0, -1.05*R);
+            rotate(60);
+            text("Dor", 0, -1.25*R);
+            rotate(60);
+            text("Phry", 0, -1.25*R);
+            rotate(30);
+            text("Lyd", 0, -1.25*R);
+            rotate(60);
+            text("Mixo", 0, -1.25*R);
+            rotate(60);
+            text("Aeol", 0, -1.25*R);
+            // text("(m)", 0, -1.05*R);
+            rotate(60);
+            text("Locr", 0, -1.25*R);
+            rotate(30);
+            rotate(90);
+            break;
+     
+        // Transpose
+        case 4:
+            fill(0, 0, 0);
+            text("C", 0, -1.25*R);
+            rotate(60);
+            text("D", 0, -1.25*R);
+            rotate(60);
+            text("E", 0, -1.25*R);
+            rotate(30);
+            text("F", 0, -1.25*R);
+            rotate(60);
+            text("G", 0, -1.25*R);
+            rotate(60);
+            text("A", 0, -1.25*R);
+            rotate(60);
+            text("B", 0, -1.25*R);
+            rotate(30);
+            break;
+    
+        // Not reached
+        default:
+            break;
     }
     resetMatrix();
 }
