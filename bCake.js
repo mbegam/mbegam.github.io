@@ -34,10 +34,11 @@ function setup() {
    blown = 0;
    age = 20;
    
-   background(125, 231, 240);
+   // background(125, 231, 240);
+   background(100, 150, 200);
    textAlign(CENTER, CENTER);
    textSize(30*SCALE);
-   fill(255, 0, 255)
+   fill(255, 255, 255)
    text("Create Your Cake", xCen, yCen-40*SCALE);
    getInfo();
 }
@@ -78,7 +79,7 @@ function draw() {
 function getInfo() {
 
    textSize(15*SCALE);
-   fill(0, 0, 0);
+   fill(255, 255, 255);
 
    text("Name", xCen-40*SCALE, yCen);
    nameInput = createInput();
@@ -98,17 +99,14 @@ function getInfo() {
 function setInfo() {
    name = nameInput.value();
    age = ageInput.value();
-   
    removeElements();
-
-   // in case canvas got resized during input, as on a phone
-   resizeCanvas(SIZE, SIZE, true);
 }
 
 function drawBackground() {
 
-   background(125, 231, 240);
-   fill(255, 0, 0);
+   // background(125, 231, 240);
+   background(100, 150, 200);
+   fill(255, 255, 255);
    textAlign(CENTER, CENTER);
 
    if (!wished) {
