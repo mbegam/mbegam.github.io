@@ -10,7 +10,7 @@ var sketchProc = function(processingInstance) {
      //
      //  Galaxy Bowl
      //
-     //  Version 4:  Stable 8/17
+     //  Version 5
      //
      //  M.C. Begam   
      //  --------------------------------------------------
@@ -26,6 +26,9 @@ var sketchProc = function(processingInstance) {
      //  
      //  Methods and Functions:
      //
+     //  Pin constuctor
+     //  Pin.prototype.draw
+
      //  Ball constructor
      //  Ball.prototype.update
      //  Ball.prototype.display
@@ -37,21 +40,21 @@ var sketchProc = function(processingInstance) {
      //  showHelp
      //  showStatus
      //  drawBoards
-     //  drawPins
-     //  drawDeck
      //  analyze
      //  draw
      //  keyPressed
      //  mouseClicked
      //  -----------------------------------------------------
      //
-     //  Responsive scaling added  8/14
+     //  Scaling added  8/14
      //
      //  Analysis added  8/12:
      //  (See https://en.wikipedia.org/wiki/Tenpin_bowling
      //  "Pins and pin carry" section)
      //
      //  Refactoring & showStatus added  8/16
+     //
+     //  Ball-Pin contact detection added  8/18
      //-------------------------------------------------------
      //
      //  To do:   
@@ -109,6 +112,22 @@ var sketchProc = function(processingInstance) {
      var ballXs = [];
      var ballZs = [];
 
+     var pinConfigs = [
+         
+         //  Coords (inches) from back left corner of lane
+         
+         { n:  1, x: 20.75,  y: 34.125 },
+         { n:  2, x: 14.75,  y: 23.75, },
+         { n:  3, x: 26.75,  y: 23.75  },
+         { n:  4, x:  8.75,  y: 13.375 },
+         { n:  5, x: 20.75,  y: 13.375 },
+         { n:  6, x: 32.75,  y: 13.375 },
+         { n:  7, x:  2.75,  y:  3.00  },
+         { n:  8, x: 14.75,  y:  3.00  },
+         { n:  9, x: 26.75,  y:  3.00  },
+         { n: 10, x: 38.75,  y:  3.00  } 
+     ];
+
      var analyzeOn = false;
 
      //  Pixels-to-inches conversion factor
@@ -119,10 +138,40 @@ var sketchProc = function(processingInstance) {
      var trackOn = true;
      var fillOn = true;
      var ballSize = 8.5 * inches;
+     var pinSize = 4.766 * inches;
 
-     //  Ball instance
+     //  Instance definitions
 
+     var pins = [];
      var ball;
+
+     /////////////////////////////////////////////
+     //  Pin Constructor
+     /////////////////////////////////////////////
+
+     var Pin = function(config) {
+         
+         this.n = config.n;
+         this.x = config.x;
+         this.y = config.y;
+         this.hit = false;
+     };
+
+     Pin.prototype.draw = function() {
+         
+         // x and y are real-world coordinates in inches relative
+         // to back left corner of the lane -- n is pin number
+         
+         noStroke();
+         fill((this.hit) ? color(175, 175, 175) : color(255, 255, 255));
+         ellipse(this.x*inches, this.y*inches, 4.766*inches, 4.766*inches);
+         
+         textAlign(CENTER);
+         textSize(18*SCALE);
+         fill(0, 0, 0);
+         text(str(this.n), this.x*inches, this.y*inches + 6.0*SCALE);
+     };
+
 
      //////////////////////////////////
      //  Ball constructor
@@ -151,6 +200,7 @@ var sketchProc = function(processingInstance) {
          this.inPit = false;
          this.inLight = false;
      };
+
 
      /////////////////////////////////////////////
      //  Ball methods --
@@ -506,21 +556,6 @@ var sketchProc = function(processingInstance) {
          text("returning", 5*SCALE, yCen+40*SCALE); 
          
      };
-      
-
-     var drawPin = function(x, y, n) {
-         
-         // x and y are real-world coordinates in inches relative
-         // to back left corner of the lane -- n is pin number
-         
-         fill(255, 255, 255);
-         ellipse(x*inches, y*inches, 4.766*inches, 4.766*inches);
-         
-         textAlign(CENTER);
-         textSize(18*SCALE);
-         fill(0, 0, 0);
-         text(str(n), x*inches, y*inches + 6.0*SCALE);
-     };
 
      var drawBoards = function() {
          
@@ -565,51 +600,61 @@ var sketchProc = function(processingInstance) {
          text("5", 34.5 * bw, 388*SCALE);
      };
 
-     var drawDeck = function() {
-         
-         drawBoards();
-         
-         // x and y coords in inches and pin number
-         
-         drawPin( 2.75, 3.0, 7);
-         drawPin(14.75, 3.0, 8);
-         drawPin(26.75, 3.0, 9);
-         drawPin(38.75, 3.0, 10);
-
-         drawPin( 8.75, 13.375, 4);
-         drawPin(20.75, 13.375, 5);
-         drawPin(32.75, 13.375, 6);
-      
-         drawPin(14.75, 23.75, 2);
-         drawPin(26.75, 23.75, 3);
-
-         drawPin(20.75, 34.125, 1);
-     };
-
      var analyze = function() {
          
          // See https://en.wikipedia.org/wiki/Tenpin_bowling
          // "Pin and pin carry" section
          
          var ballSize = 8.5 * inches;
-         var ballX;
-         var ballY;
-         
-         drawDeck();
+         var x = [];
+         var y = [];
          
          for (var i = 0; i < ballZs.length; i++) {
              
-             ballX = map(ballXs[i], 0.0, 41.5, 0.0, width);
-             ballY = map(ballZs[i], 700.0, 754.125, 0.0, height);
-             ballY = height - ballY;
+             x[i] = map(ballXs[i], 0.0, 41.5, 0.0, width);
+             y[i] = map(ballZs[i], 700.0, 754.125, 0.0, height);
+             y[i] = height - y[i];
              
              noFill();
              stroke(0, 0, 0);
              strokeWeight(1*SCALE);
-             ellipse(ballX, ballY, ballSize, ballSize);
-             noStroke();
-             fill(255, 0, 0);
-             ellipse(ballX, ballY, 5*SCALE, 5*SCALE);
+             ellipse(x[i], y[i], ballSize, ballSize);
+             
+             stroke(255, 0, 0);
+             strokeWeight(5*SCALE);
+             point(x[i], y[i]);
+             
+             //  Ball-Pin contact detection
+             
+             for (var j = 0; j < 10; j++) {
+                 var d = dist(x[i], y[i], pins[j].x*inches, pins[j].y*inches);
+                 if (d < (ballSize + pinSize) / 2.0) {
+                     pins[j].hit = true;
+                 }
+             }
+         }
+         
+         //  Display analysis
+         
+         drawBoards();
+         
+         // Pins
+         for (var i = 0; i < 10; i++) {
+             pins[i].draw();
+         }
+         
+         for (var i = 0; i < ballZs.length; i++) {
+
+             // Ball outline
+             stroke(0, 0, 0);
+             strokeWeight(1*SCALE);
+             noFill();
+             ellipse(x[i], y[i], ballSize, ballSize);
+             
+             // Ball center
+             stroke(255, 0, 0);
+             strokeWeight(5*SCALE);
+             point(x[i], y[i]);
          }
      };
 
@@ -624,6 +669,10 @@ var sketchProc = function(processingInstance) {
 
      frmRate = 40;
      frameRate(frmRate);
+
+     for (var i = 0; i < 10; i++) {
+         pins.push(new Pin(pinConfigs[i])) ;
+     }
 
      for (var i = 0; i < nStars; i++) {
          starsX[i] = round(random(0, width));
@@ -737,6 +786,9 @@ var sketchProc = function(processingInstance) {
                  else if (ball.aiming) {
                      ballXs = [];
                      ballZs = [];
+                     for (var i = 0; i < 10; i++) {
+                         pins[i].hit = false;
+                     }
                      ball.aiming = false;
                      ball.rolling = true;
                  }
@@ -772,12 +824,7 @@ var sketchProc = function(processingInstance) {
              case 87: {
                  yHor += SCALE;
                  break;
-             }
-             // s
-             case 83: {
-                 yHor--;
-                 break;
-             }
+             } 
              default: {
                  // ball.showPos();
                  break;
@@ -805,5 +852,4 @@ var sketchProc = function(processingInstance) {
 var canvas = document.getElementById("mycanvas"); 
 
 // Pass the function sketchProc to Processing's constructor.
-
-var processingInstance = new Processing(canvas, sketchProc); 
+processingInstance = new Processing(canvas, sketchProc); 
