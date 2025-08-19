@@ -572,10 +572,10 @@ var sketchProc = function(processingInstance) {
          text("returning", 5*SCALE, yCen+50*SCALE); 
          
          if (ball.rolling) {
-             var hdng = -round(ball.vel.heading());
+             var hdng = -round(degrees(ball.vel.heading()));
              textSize(12*SCALE);
              fill(255, 255, 255);
-             text(str(hdng) + degs, 5*SCALE, yCen+70*SCALE);
+             //text(str(hdng) + degs, 5*SCALE, yCen+70*SCALE);
          }
      };
 
@@ -745,15 +745,6 @@ var sketchProc = function(processingInstance) {
              ball.update();
              ball.display();
              updateWall();
-         
-             //  Homerian cry (too annoying?)
-         
-             if (ball.inGutterL || ball.inGutterR) {
-                 fill(240, 240, 255, 120);
-                 textAlign(CENTER);
-                 textSize(50*SCALE);
-                 //text("D'oh!", xCen, yCen+80*SCALE);
-             }
          
              //  Messages
          
