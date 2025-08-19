@@ -28,7 +28,7 @@ var sketchProc = function(processingInstance) {
      //
      //  Pin constuctor
      //  Pin.prototype.draw
-
+     //
      //  Ball constructor
      //  Ball.prototype.update
      //  Ball.prototype.display
@@ -81,6 +81,7 @@ var sketchProc = function(processingInstance) {
 
      var yWall = yHor + 15.0*SCALE;     //  Back wall y-coordinate
      var yPit  = yHor + 30.0*SCALE;     //  Pit y-coordinate
+     var yDeck = yPit + 0.032*width;    //  Deck entry y-coordinate
      var yRack = 345.0 * SCALE;         //  Rack y-coordinate
      var hWall = yWall;                 //  Wall height
 
@@ -89,6 +90,7 @@ var sketchProc = function(processingInstance) {
      var statusOn = true;
 
      var font = createFont("sans-serif");
+     var degs = String.fromCharCode(176);
 
      var nStars = 200;
      var starsX = [];
@@ -129,6 +131,8 @@ var sketchProc = function(processingInstance) {
      ];
 
      var analyzeOn = false;
+     var entered = false;
+     var entryAngle;
 
      //  Pixels-to-inches conversion factor
      //  (lane is full width of canvas)
@@ -194,9 +198,11 @@ var sketchProc = function(processingInstance) {
          this.positioning = false;
          this.aiming = false;
          this.rolling = false;
+         this.entered = false;
          this.returning = false;
          this.inGutterL = false;
          this.inGutterR = false;
+         this.inDeck = false;
          this.inPit = false;
          this.inLight = false;
      };
@@ -229,6 +235,16 @@ var sketchProc = function(processingInstance) {
                           this.pos.y > yPit-10.0*SCALE &&  
                           this.pos.x > xGutterR;
                           
+         //  Other ball location conditionals
+         
+         this.inPit   = this.pos.y <  yPit - 5.0*SCALE;
+         
+         this.inLight = this.pos.y >= yPit - 5.0*SCALE &&
+                        this.pos.y <  yPit + 15.0*SCALE;
+         
+         this.inDeck  = this.pos.y >= yPit && 
+                        this.pos.y <= yDeck;
+                         
          if (this.racked) {
              
              this.speed = 0.0;
@@ -276,7 +292,6 @@ var sketchProc = function(processingInstance) {
                  this.speed = 0;
                  this.pos.set(xAim, yHor);
                  this.vel.set(0, 0);
-                 //this.acc.set = PVector.sub(rack, this.pos);
                  this.inGutterL = false;
                  this.inGutterR = false;
                  this.rolling = false;
@@ -285,7 +300,6 @@ var sketchProc = function(processingInstance) {
              else {
                  
                  //  Go towards the aim point
-                 
                  this.acc = PVector.sub(aimPoint, this.pos);
              }
          }
@@ -321,8 +335,6 @@ var sketchProc = function(processingInstance) {
              ballXs.push(ballX);
              ballZs.push(ballZ);
          }
-         
-         //println(str(round(ballX)) + "  " + str(round(ballZ)) + "  " + str(ballZs.length));
      };
 
      Ball.prototype.display = function() {
@@ -335,13 +347,6 @@ var sketchProc = function(processingInstance) {
          
          this.diam = map(this.pos.y, yHor, height, 0, width/5.0);
          
-         //  Ball location conditionals:
-         
-         this.inPit   = this.pos.y <  yPit - 5.0*SCALE;
-         
-         this.inLight = this.pos.y >= yPit - 5.0*SCALE &&
-                        this.pos.y <  yPit + 15.0*SCALE;
-                       
          noStroke();
          
          if (this.inPit) {
@@ -393,6 +398,8 @@ var sketchProc = function(processingInstance) {
          var pitColor = color(99, 80, 99);
          var gutterColor = color(96, 99, 158);
          
+         var pitWidth = width * (yPit - yHor) / (height - yHor);
+         
          background(gutterColor);
          
          // Horizon line for perspective reference --
@@ -422,7 +429,14 @@ var sketchProc = function(processingInstance) {
          triangle(  480*SCALE, height,   880*SCALE, height, xCen, yHor);
          triangle(  960*SCALE, height,  1360*SCALE, height, xCen, yHor);
          triangle( 1440*SCALE, height,  1840*SCALE, height, xCen, yHor);
-
+         
+         //  Pin deck (approximate)
+         //stroke(255, 255, 255);
+         noFill();
+         fill(255, 255, 255, 100);
+         triangle(xCen-pitWidth/2, yPit, xCen, yDeck, xCen+pitWidth/2, yPit);
+         
+         
          // Back wall
          fill(wallColor);
          noStroke();
@@ -434,7 +448,6 @@ var sketchProc = function(processingInstance) {
              ellipse(starsX[i], starsY[i], starsSize[i], starsSize[i]);
          }
          
-
          // Neon sign
 
          textAlign(CENTER);
@@ -544,17 +557,26 @@ var sketchProc = function(processingInstance) {
          text("inGutterL", 5*SCALE, yCen);
          
          fill(ball.inGutterR ? (255, 255, 255) : (255, 255, 255, 200));
-         text("inGutterR", 5*SCALE, yCen+10*SCALE); 
+         text("inGutterR", 5*SCALE, yCen+10*SCALE);  
+         
+         fill(ball.inDeck ? (255, 255, 255) : (255, 255, 255, 200));
+         text("inDeck", 5*SCALE, yCen+20*SCALE);
          
          fill(ball.inPit ? (255, 255, 255) : (255, 255, 255, 200));
-         text("inPit", 5*SCALE, yCen+20*SCALE); 
+         text("inPit", 5*SCALE, yCen+30*SCALE); 
          
          fill(ball.inLight ? (255, 255, 255) : (255, 255, 255, 200));
-         text("inLight", 5*SCALE, yCen+30*SCALE);
+         text("inLight", 5*SCALE, yCen+40*SCALE);
          
          fill(ball.returning ? (255, 255, 255) : (255, 255, 255, 200));
-         text("returning", 5*SCALE, yCen+40*SCALE); 
+         text("returning", 5*SCALE, yCen+50*SCALE); 
          
+         if (ball.rolling) {
+             var hdng = -round(ball.vel.heading());
+             textSize(12*SCALE);
+             fill(255, 255, 255);
+             text(str(hdng) + degs, 5*SCALE, yCen+70*SCALE);
+         }
      };
 
      var drawBoards = function() {
@@ -634,6 +656,10 @@ var sketchProc = function(processingInstance) {
              }
          }
          
+         //  Entry angle
+         
+         entryAngle = degrees(atan((x[1]-x[0])/(y[1]-y[0])));
+         
          //  Display analysis
          
          drawBoards();
@@ -656,6 +682,10 @@ var sketchProc = function(processingInstance) {
              strokeWeight(5*SCALE);
              point(x[i], y[i]);
          }
+         textAlign(LEFT);
+         textSize(14*SCALE);
+         fill(0, 0, 0);
+         text("Entry angle: "+str(abs(round(entryAngle)))+degs, 5*SCALE, 350*SCALE);
      };
 
 
@@ -789,6 +819,8 @@ var sketchProc = function(processingInstance) {
                      for (var i = 0; i < 10; i++) {
                          pins[i].hit = false;
                      }
+                     ball.inDeck = false;
+                     ball.entered = false;
                      ball.aiming = false;
                      ball.rolling = true;
                  }
