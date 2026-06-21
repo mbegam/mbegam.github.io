@@ -1,21 +1,26 @@
 var sketchProc = function(processingInstance) {
     with (processingInstance) {
-        //
-        //  Electronic Soroban       --mcb Mar 2026 
-        // 
-        //         Beads:  click and drag
-        //  Power button:  toggle numerical display on/off
-        //    Red Button:  clear
-        //
 
         var SIZE = min(window.innerWidth, window.innerHeight) - 35;
         size(SIZE, SIZE);
 
+        //
+        //  Electronic Soroban            --mcb Mar 2026 
+        // 
+        //  Based on "digital abacus" by @hannasantos632:
+        //
+        //  https://www.khanacademy.org/computer-programming/
+        //  digital-abacus-old-version/6626363796209664
+        //   
+        //         Beads:  click and drag
+        //  Power button:  numerical display on/off
+        //    Red Button:  clear
+        //
+
         smooth();
         textAlign(CENTER, CENTER);
 
-        var bckgdColor = color(166, 208, 230);
-        var SCALE = SIZE/400;
+        var SCALE = SIZE / 400;
 
         var clearX = 200*SCALE;
         var clearY = 363*SCALE;
@@ -24,11 +29,11 @@ var sketchProc = function(processingInstance) {
         var powerY = 363*SCALE;
         var powerOn = false;
 
-        var power = String.fromCodePoint(0x23fb);
-
+        var power = String.fromCodePoint(0x23fb);  // Unicode power icon
+            
         var buttonSize = 24*SCALE;
 
-        var digits = [];
+        var display = [];
 
         var beads = [[], [], [], [], [], [], [], [], []];
 
@@ -57,7 +62,9 @@ var sketchProc = function(processingInstance) {
             this.selected = false;
         };
 
+        //
         //  Bead methods
+        //
 
         Bead.prototype.draw = function() {
             
@@ -65,12 +72,20 @@ var sketchProc = function(processingInstance) {
             ellipse(this.x, this.y, this.w, this.h);
         };
 
+        Bead.prototype.clear = function() {
+            
+            this.y = (this.digit === 5) ? this.upper : this.lower;
+            this.on = false;
+            this.off = true;
+            this.selected = false;
+        };
+
         Bead.prototype.isMouseInside = function() {
             
-            return (mouseX > this.x - this.w/2 && 
-                    mouseX < this.x + this.w/2 &&
-                    mouseY > this.y - this.h/2 && 
-                    mouseY < this.y + this.h/2);
+            return mouseX > this.x - this.w/2 && 
+                   mouseX < this.x + this.w/2 &&
+                   mouseY > this.y - this.h/2 && 
+                   mouseY < this.y + this.h/2;
         };
 
         Bead.prototype.isOn = function() {
@@ -83,7 +98,9 @@ var sketchProc = function(processingInstance) {
             return (this.digit === 5) ? this.y === this.upper : this.y === this.lower;
         };
 
+        //
         //  Utility functions
+        //
 
         var drawFrame = function() {
             
@@ -109,14 +126,14 @@ var sketchProc = function(processingInstance) {
             
             fill((powerOn) ? color(200, 200, 200) : color(150, 150, 150));
             
-            // Numerical display
+            // Numerical-display window
             rect(60*SCALE, 75*SCALE, 280*SCALE, 30*SCALE);
             
-            // Button
+            // Power button
             ellipse(powerX, powerY, buttonSize, buttonSize);
             fill(0, 0, 0);
             textSize(20*SCALE);
-            text(power, powerX, powerY-1);
+            text(power, powerX, powerY);
             
             // Clear button
             
@@ -126,10 +143,10 @@ var sketchProc = function(processingInstance) {
 
         var updateRod = function(rod) {
             
-            //  The .y properties of the other beads on the same rod (r) as the selected
-            //  bead are constrained by that of the selected bead.  The .y property of 
+            //  The .y properties of the other beads on the same rod as the selected
+            //  bead are constrained by that of the selected bead. The .y property of 
             //  the selected bead is updated in mouseDragged, using the value of mouseY, 
-            //  constrained to the bead's .lower and .upper limits.
+            //  constrained to that bead's .lower and .upper limits.
             
             //  Shorthand references for improved readability 
             //  (these are not copies--changing b1.y changes beads[rod][0].y)
@@ -149,27 +166,27 @@ var sketchProc = function(processingInstance) {
             b4.y = (b4.selected) ? b4.y : constrain(b4.y,  b3.y + h,  b4.lower); 
         };
 
-        var updateDigits = function() {
+        var updateDisplay = function() {
             
-            digits = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+            display = [0, 0, 0, 0, 0, 0, 0, 0, 0];
             
             for (var r = 0; r < 9; r++) {
                 for (var d = 0; d < 5; d++) {
                     
                     if (beads[r][d].on && !beads[r][d].off) {
-                        digits[r] += (d === 4) ? 5 : 1;
+                        display[r] += (d === 4) ? 5 : 1;
                     }
                     else if (!beads[r][d].off && !beads[r][d].on) {
-                        digits[r] = '?';
+                        display[r] = '?';
                         break;
                     }
                 }
             }
         };
 
-        var clear = function() {
+        var init = function() {
             
-            digits = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            display = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
             for (var rod = 1; rod <= 9; rod++) {
                 for (var digit = 1; digit <= 5; digit++) {
@@ -190,19 +207,19 @@ var sketchProc = function(processingInstance) {
         //  Main program
         //
 
-        clear();
+        init();
+        textFont(createFont("monospace"));
 
         draw = function() {
             
-            background(bckgdColor); 
-            
-            textSize(30*SCALE);
-            text("e S o r o b a n", width/2, 30*SCALE);
+            background(120, 191, 235); 
+
+            textSize(30);
+            text("eSoroban", 200*SCALE, 30*SCALE);
             
             // Draw abacus
-            drawFrame();
             
-            // Draw beads
+            drawFrame();
 
             for (var r = 0; r < 9; r++) {
                 for (var d = 0; d < 5; d++) {
@@ -215,14 +232,20 @@ var sketchProc = function(processingInstance) {
             if (powerOn) {
                 fill(0, 0, 0);
                 textSize(25*SCALE);
-                // textFont(createFont("monospace"));
                 for (var i = 0; i < 9; i++) {
-                    text(digits[i], 80*SCALE + i*30*SCALE, 90*SCALE);
+                    text(display[i], 80*SCALE + i*30*SCALE, 90*SCALE);
                 }
             }
+            updateDisplay();
         };
+
+        //
+        //  Event handlers
+        //
           
         mousePressed = function() {
+            
+            //  Detect a bead selection
             
             for (var r = 0; r < 9; r++) {
                 for (var d = 0; d < 5; d++) {
@@ -235,7 +258,7 @@ var sketchProc = function(processingInstance) {
 
         mouseReleased = function() {
             
-            // Resets bead status
+            // Reset bead status
             
             for (var r = 0; r < 9; r++) {
                 for (var d = 0; d < 5; d++) {
@@ -246,7 +269,6 @@ var sketchProc = function(processingInstance) {
                     beads[r][d].off = beads[r][d].isOff();
                 }
             }
-            updateDigits();
         };
 
         mouseDragged = function() {
@@ -258,7 +280,7 @@ var sketchProc = function(processingInstance) {
                     
                     if (beads[r][d].selected) {
                         
-                        // Keep mouseY within the limits for the selected bead.
+                        // Keep .y property within the limits for the selected bead.
                         beads[r][d].y = constrain(mouseY, beads[r][d].upper, beads[r][d].lower);
                         
                         // Update the positions of the other beads on the same rod.
@@ -279,12 +301,19 @@ var sketchProc = function(processingInstance) {
             // Clear
             
             if (abs(dist(clearX, clearY, mouseX, mouseY)) <= buttonSize/2) {
-                clear();
+                
+                display = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+                
+                for (var r = 0; r < 9; r++) {
+                    for (var d = 0; d < 5; d++) {
+                        beads[r][d].clear();
+                    }
+                }
             }
         };
     }
 }
-
+    
 
 // Get the canvas that Processing-js will use
 
