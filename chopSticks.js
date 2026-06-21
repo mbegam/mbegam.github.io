@@ -1,8 +1,8 @@
 var sketchProc = function(processingInstance) {
    with (processingInstance) {
 
-     var sketchSize = window.innerHeight - 35;
-     size(sketchSize, sketchSize);
+     var SIZE = min(window.innerWidth, window.innerHeight) - 35;
+     size(SIZE, SIZE);
      frameRate(30);
 
      // *** Program Code Goes Here ***
