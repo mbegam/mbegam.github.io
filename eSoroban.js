@@ -1,9 +1,5 @@
 var sketchProc = function(processingInstance) {
     with (processingInstance) {
-
-        var SIZE = min(window.innerWidth, window.innerHeight) - 35;
-        size(SIZE, SIZE);
-
         //
         //  Electronic Soroban            --mcb Mar 2026 
         // 
@@ -17,21 +13,20 @@ var sketchProc = function(processingInstance) {
         //    Red Button:  clear
         //
 
+        size(400, 400);
         smooth();
         textAlign(CENTER, CENTER);
 
-        var SCALE = SIZE / 400;
+        var clearX = 200;
+        var clearY = 363;
 
-        var clearX = 200*SCALE;
-        var clearY = 363*SCALE;
-
-        var powerX = 50*SCALE;
-        var powerY = 363*SCALE;
+        var powerX = 50;
+        var powerY = 363;
         var powerOn = false;
 
         var power = String.fromCodePoint(0x23fb);  // Unicode power icon
             
-        var buttonSize = 24*SCALE;
+        var buttonSize = 24;
 
         var display = [];
 
@@ -39,11 +34,11 @@ var sketchProc = function(processingInstance) {
 
         // Position limits for each digit
 
-        var limits = [{upper: 210*SCALE, lower: 270*SCALE},
-                      {upper: 230*SCALE, lower: 290*SCALE},
-                      {upper: 250*SCALE, lower: 310*SCALE},
-                      {upper: 270*SCALE, lower: 330*SCALE},
-                      {upper: 130*SCALE, lower: 170*SCALE}];
+        var limits = [{upper: 210, lower: 270},
+                      {upper: 230, lower: 290},
+                      {upper: 250, lower: 310},
+                      {upper: 270, lower: 330},
+                      {upper: 130, lower: 170}];
 
         //  Bead constructor
 
@@ -51,10 +46,10 @@ var sketchProc = function(processingInstance) {
             
             this.rod = rod;
             this.digit = digit;
-            this.x = 50*SCALE + this.rod * 30*SCALE;
+            this.x = 50 + this.rod * 30;
             this.y = y;
-            this.w = 25*SCALE;
-            this.h = 20*SCALE;
+            this.w = 25;
+            this.h = 20;
             this.upper = limits[digit-1].upper;
             this.lower = limits[digit-1].lower;
             this.on = false;
@@ -109,30 +104,30 @@ var sketchProc = function(processingInstance) {
             // Frame
             
             fill(176, 176, 153);
-            rect(20*SCALE, 60*SCALE, 360*SCALE, 326*SCALE, 20*SCALE);
+            rect(20, 60, 360, 326, 20);
             
             fill(200, 200, 200);
-            rect(40*SCALE, 120*SCALE, 320*SCALE, 60*SCALE);
-            rect(40*SCALE, 200*SCALE, 320*SCALE, 140*SCALE);
+            rect(40, 120, 320, 60);
+            rect(40, 200, 320, 140);
             
             // Rods
             
             for (var i = 0; i < 9; i++) {
-                line(80*SCALE + i*30*SCALE, 120*SCALE, 80*SCALE + i*30*SCALE, 180*SCALE);
-                line(80*SCALE + i*30*SCALE, 200*SCALE, 80*SCALE + i*30*SCALE, 340*SCALE);
+                line(80 + i*30, 120, 80 + i*30, 180);
+                line(80 + i*30, 200, 80 + i*30, 340);
             }
             
-            // Power
+            //  Power
             
             fill((powerOn) ? color(200, 200, 200) : color(150, 150, 150));
             
             // Numerical-display window
-            rect(60*SCALE, 75*SCALE, 280*SCALE, 30*SCALE);
+            rect(60, 75, 280, 30);
             
             // Power button
             ellipse(powerX, powerY, buttonSize, buttonSize);
             fill(0, 0, 0);
-            textSize(20*SCALE);
+            textSize(20);
             text(power, powerX, powerY);
             
             // Clear button
@@ -156,7 +151,7 @@ var sketchProc = function(processingInstance) {
             var b3 = beads[rod][2];
             var b4 = beads[rod][3];
             
-            var  h = 20*SCALE;
+            var  h = 20;
             
             //  Update positions of non-selected beads only
             
@@ -193,11 +188,11 @@ var sketchProc = function(processingInstance) {
                     
                     if (digit < 5) {
                         // lower beads
-                        beads[rod - 1][digit - 1] = new Bead(rod, 250*SCALE+digit*20*SCALE, digit);
+                        beads[rod - 1][digit- 1] = new Bead(rod, 250+digit*20, digit);
                     } 
                     else {
                         // upper beads
-                        beads[rod - 1][digit - 1] = new Bead(rod, 130*SCALE, digit);
+                        beads[rod - 1][digit - 1] = new Bead(rod, 130, digit);
                     }
                 }
             }
@@ -215,7 +210,7 @@ var sketchProc = function(processingInstance) {
             background(120, 191, 235); 
 
             textSize(30);
-            text("eSoroban", 200*SCALE, 30*SCALE);
+            text("eSoroban", 200, 30);
             
             // Draw abacus
             
@@ -231,9 +226,9 @@ var sketchProc = function(processingInstance) {
             
             if (powerOn) {
                 fill(0, 0, 0);
-                textSize(25*SCALE);
+                textSize(25);
                 for (var i = 0; i < 9; i++) {
-                    text(display[i], 80*SCALE + i*30*SCALE, 90*SCALE);
+                    text(display[i], 80 + i*30, 90);
                 }
             }
             updateDisplay();
