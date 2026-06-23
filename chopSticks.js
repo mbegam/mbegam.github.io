@@ -179,7 +179,7 @@ var sketchProc = function(processingInstance) {
      //  Main program
      //
 
-     var myFly = new Fly(width, height);
+     var myFly = new Fly(width/2, height/2);
 
      smooth();
 
