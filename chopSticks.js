@@ -13,6 +13,7 @@ var sketchProc = function(processingInstance) {
      //  If you've seen "The Karate Kid" (original version),
      //  you know what this is.
      //
+     //  ----------------------------------------------------------------
      //  Changes in version 2: 
      //
      //  1. Game is Resizable
@@ -24,6 +25,7 @@ var sketchProc = function(processingInstance) {
      //     mouse-pointer is moved off the canvas
      //
      //  4.  Chopsticks lengthened
+     //  ----------------------------------------------------------------
 
 
      //  Unicode arrow symbols
@@ -80,7 +82,7 @@ var sketchProc = function(processingInstance) {
           
          if (caught) {
              this.speed = 0;
-             this.x = (rightHanded) ? mouseX + 5 : mouseX - 5;
+             this.x = (rightHanded) ? mouseX + 5*SCALE : mouseX - 5*SCALE;
              this.y = mouseY;
          }
          else {
@@ -185,13 +187,12 @@ var sketchProc = function(processingInstance) {
           
          background(200, 200, 200);
          
-         inHelpButton  = mouseX > 170*SCALE && mouseX < 230*SCALE && 
-                         mouseY > 285*SCALE && mouseY < 315*SCALE;
-                         
          inStartButton = mouseX > 160*SCALE && mouseX < 240*SCALE && 
-                         mouseY > 340*SCALE && mouseY < 380*SCALE;
+                         mouseY > 290*SCALE && mouseY < 330*SCALE;
+
+         inHelpButton  = mouseX > 170*SCALE && mouseX < 230*SCALE && 
+                         mouseY > 345*SCALE && mouseY < 375*SCALE;
                          
-         
          //  Not started
          
          if (!started) {
@@ -224,20 +225,21 @@ var sketchProc = function(processingInstance) {
                  text("Adjust the fly's speed", 135*SCALE, 265*SCALE);
                  
                  textAlign(CENTER, CENTER);
-                 textSize(18*SCALE);
-                 text("Help", 200*SCALE, 310*SCALE);
                  textSize(25*SCALE);
-                 text("Start", 200*SCALE, 360*SCALE);
+                 text("Start", 200*SCALE, 310*SCALE);
+                 textSize(18*SCALE);
+                 text("Help", 200*SCALE, 360*SCALE);
                  
                  rectMode(CENTER);
                  noFill();
                  stroke(0, 0, 200);
                  
-                 strokeWeight((inHelpButton) ? 2*SCALE : SCALE);
-                 rect(200*SCALE, 310*SCALE, 60*SCALE, 30*SCALE, 4*SCALE);
-                  
                  strokeWeight((inStartButton) ? 2*SCALE : SCALE);
-                 rect(200*SCALE, 360*SCALE, 80*SCALE, 40*SCALE,6*SCALE);
+                 rect(200*SCALE, 310*SCALE, 80*SCALE, 40*SCALE,6*SCALE);
+
+                 strokeWeight((inHelpButton) ? 2*SCALE : SCALE);
+                 rect(200*SCALE, 360*SCALE, 60*SCALE, 30*SCALE, 4*SCALE);
+                  
              }
          }
          
@@ -253,7 +255,7 @@ var sketchProc = function(processingInstance) {
                  textSize(30*SCALE);
                  fill(0, 0, 200, fadeOut);
                  text("Don't forget to breathe!", width/2, height/2);
-                 fadeOut--;
+                 fadeOut -= 2;
              }
              
              if (caught) {
