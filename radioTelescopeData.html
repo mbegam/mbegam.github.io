@@ -71,7 +71,8 @@
 
             var plot = function() {
                 background(0, 0, 0);
-                strokeWeight((SCALE > 1.0) ? SCALE : 1.0 / SCALE);
+                //strokeWeight((SCALE > 1.0) ? SCALE : 1.0 / SCALE);
+                strokeWeight(SCALE);
                 stroke(0, 255, 0);
                 line(0, axis1, width-1, axis1);
                 line(0, axis2, width-1, axis2);
