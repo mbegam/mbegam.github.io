@@ -1151,7 +1151,7 @@ function draw() {
 //  Switch inputs
 //
 
-function mouseClicked() {
+function mousePressed() {
     
     //  Opcode input
     
