@@ -103,9 +103,10 @@ let myCanvas;
 function setup() {
 
     click = document.getElementById("clink");
+    myCanvas = document.getElementById("myCanvas");
 
-    canvasSize = min(windowWidth, windowHeight) - 35;
-    createCanvas(canvasSize, canvasSize);
+    canvasSize = min(windowWidth, windowHeight);
+    createCanvas(canvasSize, canvasSize, myCanvas);
 
     SCALE = canvasSize / 600;
 
@@ -1014,7 +1015,7 @@ function draw() {
     strokeWeight(6*SCALE);
     fill(200);
     rectMode(CORNER);
-    rect(2*SCALE, 2*SCALE, 595*SCALE, 595*SCALE, 30*SCALE);
+    rect(2*SCALE, 2*SCALE, 595*SCALE, 595*SCALE, 50*SCALE);
     strokeWeight(1*SCALE);
     line(100*SCALE, 160*SCALE, 496*SCALE, 160*SCALE);
     
@@ -1296,14 +1297,14 @@ function mousePressed() {
         p1Set.led.on = (p1Set.sw.on) ? true : false;
         p1Set.sw.toggle();
         click.play();
-        p1Addr = encodeSW(addr);
+        p1Addr = currAddr;
     }
     else if (p2Set.sw.touched) {
         p2Set.sw.on = !p2Set.sw.on;
         p2Set.led.on = (p2Set.sw.on) ? true : false;
         p2Set.sw.toggle();
         click.play();
-        p2Addr = encodeSW(addr);
+        p2Addr = currAddr;
     }
 }
 
