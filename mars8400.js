@@ -1015,7 +1015,7 @@ function draw() {
     strokeWeight(6*SCALE);
     fill(200);
     rectMode(CORNER);
-    rect(2*SCALE, 2*SCALE, 595*SCALE, 595*SCALE, 50*SCALE);
+    rect(2*SCALE, 2*SCALE, 595*SCALE, 595*SCALE, 40*SCALE);
     strokeWeight(1*SCALE);
     line(100*SCALE, 160*SCALE, 496*SCALE, 160*SCALE);
     
